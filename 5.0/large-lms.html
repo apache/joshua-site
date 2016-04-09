@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Building large LMs with SRILM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Building large LMs with SRILM</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <p>The following is a tutorial for building a large language model from the
+English Gigaword Fifth Edition corpus
+<a href="http://www.ldc.upenn.edu/Catalog/catalogEntry.jsp?catalogId=LDC2011T07">LDC2011T07</a>
+using SRILM. English text is provided from seven different sources.</p>
+
+<h3 id="step-0-clean-up-the-corpus">Step 0: Clean up the corpus</h3>
+
+<p>The Gigaword corpus has to be stripped of all SGML tags and tokenized.
+Instructions for performing those steps are not included in this
+documentation. A description of this process can be found in a paper
+called <a href="https://akbcwekex2012.files.wordpress.com/2012/05/28_paper.pdf">“Annotated
+Gigaword”</a>.</p>
+
+<p>The Joshua package ships with a script that converts all alphabetical
+characters to their lowercase equivalent. The script is located at
+<code class="highlighter-rouge">$JOSHUA/scripts/lowercase.perl</code>.</p>
+
+<p>Make a directory structure as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gigaword/
+├── corpus/
+│   ├── afp_eng/
+│   │   ├── afp_eng_199405.lc.gz
+│   │   ├── afp_eng_199406.lc.gz
+│   │   ├── ...
+│   │   └── counts/
+│   ├── apw_eng/
+│   │   ├── apw_eng_199411.lc.gz
+│   │   ├── apw_eng_199412.lc.gz
+│   │   ├── ...
+│   │   └── counts/
+│   ├── cna_eng/
+│   │   ├── ...
+│   │   └── counts/
+│   ├── ltw_eng/
+│   │   ├── ...
+│   │   └── counts/
+│   ├── nyt_eng/
+│   │   ├── ...
+│   │   └── counts/
+│   ├── wpb_eng/
+│   │   ├── ...
+│   │   └── counts/
+│   └── xin_eng/
+│       ├── ...
+│       └── counts/
+└── lm/
+    ├── afp_eng/
+    ├── apw_eng/
+    ├── cna_eng/
+    ├── ltw_eng/
+    ├── nyt_eng/
+    ├── wpb_eng/
+    └── xin_eng/
+</code></pre>
+</div>
+
+<p>The next step will be to build smaller LMs and then interpolate them into one
+file.</p>
+
+<h3 id="step-1-count-ngrams">Step 1: Count ngrams</h3>
+
+<p>Run the following script once from each source directory under the <code class="highlighter-rouge">corpus/</code>
+directory (edit it to specify the path to the <code class="highlighter-rouge">ngram-count</code> binary as well as
+the number of processors):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+
+<span class="nv">NGRAM_COUNT</span><span class="o">=</span><span class="nv">$SRILM_SRC</span>/bin/i686-m64/ngram-count
+<span class="nv">args</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="k">for </span><span class="nb">source </span><span class="k">in</span> <span class="k">*</span>.gz; <span class="k">do
+   </span><span class="nv">args</span><span class="o">=</span><span class="nv">$args</span><span class="s2">"-sort -order 5 -text </span><span class="nv">$source</span><span class="s2"> -write counts/</span><span class="nv">$source</span><span class="s2">-counts.gz "</span>
+<span class="k">done
+
+</span><span class="nb">echo</span> <span class="nv">$args</span> | xargs --max-procs<span class="o">=</span>4 -n 7 <span class="nv">$NGRAM_COUNT</span>
+</code></pre>
+</div>
+
+<p>Then move each <code class="highlighter-rouge">counts/</code> directory to the corresponding directory under
+<code class="highlighter-rouge">lm/</code>. Now that each ngram has been counted, we can make a language
+model for each of the seven sources.</p>
+
+<h3 id="step-2-make-individual-language-models">Step 2: Make individual language models</h3>
+
+<p>SRILM includes a script, called <code class="highlighter-rouge">make-big-lm</code>, for building large language
+models under resource-limited environments. The manual for this script can be
+read online
+<a href="http://www-speech.sri.com/projects/srilm/manpages/training-scripts.1.html">here</a>.
+Since the Gigaword corpus is so large, it is convenient to use <code class="highlighter-rouge">make-big-lm</code>
+even in environments with many parallel processors and a lot of memory.</p>
+
+<p>Initiate the following script from each of the source directories under the
+<code class="highlighter-rouge">lm/</code> directory (edit it to specify the path to the <code class="highlighter-rouge">make-big-lm</code> script as
+well as the pruning threshold):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> -x
+
+<span class="nv">CMD</span><span class="o">=</span><span class="nv">$SRILM_SRC</span>/bin/make-big-lm
+<span class="nv">PRUNE_THRESHOLD</span><span class="o">=</span>1e-8
+
+<span class="nv">$CMD</span> <span class="se">\</span>
+  -name gigalm <span class="sb">`</span><span class="k">for </span>k <span class="k">in </span>counts/<span class="k">*</span>.gz; <span class="k">do </span><span class="nb">echo</span> <span class="s2">" </span><span class="se">\</span><span class="s2">
+  -read </span><span class="nv">$k</span><span class="s2"> "</span>; <span class="k">done</span><span class="sb">`</span> <span class="se">\</span>
+  -lm lm.gz <span class="se">\</span>
+  -max-per-file 100000000 <span class="se">\</span>
+  -order 5 <span class="se">\</span>
+  -kndiscount <span class="se">\</span>
+  -interpolate <span class="se">\</span>
+  -unk <span class="se">\</span>
+  -prune <span class="nv">$PRUNE_THRESHOLD</span>
+</code></pre>
+</div>
+
+<p>The language model attributes chosen are the following:</p>
+
+<ul>
+  <li>N-grams up to order 5</li>
+  <li>Kneser-Ney smoothing</li>
+  <li>N-gram probability estimates at the specified order <em>n</em> are interpolated with
+lower-order estimates</li>
+  <li>include the unknown-word token as a regular word</li>
+  <li>pruning N-grams based on the specified threshold</li>
+</ul>
+
+<p>Next, we will mix the models together into a single file.</p>
+
+<h3 id="step-3-mix-models-together">Step 3: Mix models together</h3>
+
+<p>Using development text, interpolation weights can determined that give highest
+weight to the source language models that have the lowest perplexity on the
+specified development set.</p>
+
+<h4 id="step-3-1-determine-interpolation-weights">Step 3-1: Determine interpolation weights</h4>
+
+<p>Initiate the following script from the <code class="highlighter-rouge">lm/</code> directory (edit it to specify the
+path to the <code class="highlighter-rouge">ngram</code> binary as well as the path to the development text file):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> -x
+
+<span class="nv">NGRAM</span><span class="o">=</span><span class="nv">$SRILM_SRC</span>/bin/i686-m64/ngram
+<span class="nv">DEV_TEXT</span><span class="o">=</span>~mpost/expts/wmt12/runs/es-en/data/tune/tune.tok.lc.es
+
+<span class="nb">dirs</span><span class="o">=(</span> afp_eng apw_eng cna_eng ltw_eng nyt_eng wpb_eng xin_eng <span class="o">)</span>
+
+<span class="k">for </span>d <span class="k">in</span> <span class="k">${</span><span class="nv">dirs</span><span class="p">[@]</span><span class="k">}</span> ; <span class="k">do</span>
+  <span class="nv">$NGRAM</span> -debug 2 -order 5 -unk -lm <span class="nv">$d</span>/lm.gz -ppl <span class="nv">$DEV_TEXT</span> &gt; <span class="nv">$d</span>/lm.ppl ;
+<span class="k">done
+
+</span>compute-best-mix <span class="k">*</span>/lm.ppl &gt; best-mix.ppl
+</code></pre>
+</div>
+
+<p>Take a look at the contents of <code class="highlighter-rouge">best-mix.ppl</code>. It will contain a sequence of
+values in parenthesis. These are the interpolation weights of the source
+language models in the order specified. Copy and paste the values within the
+parenthesis into the script below.</p>
+
+<h4 id="step-3-2-combine-the-models">Step 3-2: Combine the models</h4>
+
+<p>Initiate the following script from the <code class="highlighter-rouge">lm/</code> directory (edit it to specify the
+path to the <code class="highlighter-rouge">ngram</code> binary as well as the interpolation weights):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> -x
+
+<span class="nv">NGRAM</span><span class="o">=</span><span class="nv">$SRILM_SRC</span>/bin/i686-m64/ngram
+<span class="nv">DIRS</span><span class="o">=(</span>   afp_eng    apw_eng     cna_eng  ltw_eng   nyt_eng  wpb_eng  xin_eng <span class="o">)</span>
+<span class="nv">LAMBDAS</span><span class="o">=(</span>0.00631272 0.000647602 0.251555 0.0134726 0.348953 0.371566 0.00749238<span class="o">)</span>
+
+<span class="nv">$NGRAM</span> -order 5 -unk <span class="se">\</span>
+  -lm      <span class="k">${</span><span class="nv">DIRS</span><span class="p">[0]</span><span class="k">}</span>/lm.gz     -lambda  <span class="k">${</span><span class="nv">LAMBDAS</span><span class="p">[0]</span><span class="k">}</span> <span class="se">\</span>
+  -mix-lm  <span class="k">${</span><span class="nv">DIRS</span><span class="p">[1]</span><span class="k">}</span>/lm.gz <span class="se">\</span>
+  -mix-lm2 <span class="k">${</span><span class="nv">DIRS</span><span class="p">[2]</span><span class="k">}</span>/lm.gz -mix-lambda2 <span class="k">${</span><span class="nv">LAMBDAS</span><span class="p">[2]</span><span class="k">}</span> <span class="se">\</span>
+  -mix-lm3 <span class="k">${</span><span class="nv">DIRS</span><span class="p">[3]</span><span class="k">}</span>/lm.gz -mix-lambda3 <span class="k">${</span><span class="nv">LAMBDAS</span><span class="p">[3]</span><span class="k">}</span> <span class="se">\</span>
+  -mix-lm4 <span class="k">${</span><span class="nv">DIRS</span><span class="p">[4]</span><span class="k">}</span>/lm.gz -mix-lambda4 <span class="k">${</span><span class="nv">LAMBDAS</span><span class="p">[4]</span><span class="k">}</span> <span class="se">\</span>
+  -mix-lm5 <span class="k">${</span><span class="nv">DIRS</span><span class="p">[5]</span><span class="k">}</span>/lm.gz -mix-lambda5 <span class="k">${</span><span class="nv">LAMBDAS</span><span class="p">[5]</span><span class="k">}</span> <span class="se">\</span>
+  -mix-lm6 <span class="k">${</span><span class="nv">DIRS</span><span class="p">[6]</span><span class="k">}</span>/lm.gz -mix-lambda6 <span class="k">${</span><span class="nv">LAMBDAS</span><span class="p">[6]</span><span class="k">}</span> <span class="se">\</span>
+  -write-lm mixed_lm.gz
+</code></pre>
+</div>
+
+<p>The resulting file, <code class="highlighter-rouge">mixed_lm.gz</code> is a language model based on all the text in
+the Gigaword corpus and with some probabilities biased to the development text
+specify in step 3-1. It is in the ARPA format. The optional next step converts
+it into KenLM format.</p>
+
+<h4 id="step-3-3-convert-to-kenlm">Step 3-3: Convert to KenLM</h4>
+
+<p>The KenLM format has some speed advantages over the ARPA format. Issuing the
+following command will write a new language model file <code class="highlighter-rouge">mixed_lm-kenlm.gz</code> that
+is the <code class="highlighter-rouge">mixed_lm.gz</code> language model transformed into the KenLM format.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/src/joshua/decoder/ff/lm/kenlm/build_binary mixed_lm.gz mixed_lm.kenlm
+</code></pre>
+</div>
+
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

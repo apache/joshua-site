@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Joshua file formats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Joshua file formats</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <p>This page describes the formats of Joshua configuration and support files.</p>
+
+<h2 id="translation-models-grammars">Translation models (grammars)</h2>
+
+<p>Joshua supports two grammar file formats: a text-based version (also used by Hiero, shared by
+<a href="">cdec</a>, and supported by <a href="">hierarchical Moses</a>), and an efficient
+<a href="packing.html">packed representation</a> developed by <a href="http://cs.jhu.edu/~juri">Juri Ganitkevich</a>.</p>
+
+<p>Grammar rules follow this format.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[LHS] ||| SOURCE-SIDE ||| TARGET-SIDE ||| FEATURES
+</code></pre>
+</div>
+
+<p>The source and target sides contain a mixture of terminals and nonterminals. The nonterminals are
+linked across sides by indices. There is no limit to the number of paired nonterminals in the rule
+or on the nonterminal labels (Joshua supports decoding with SAMT and GHKM grammars).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[X] ||| el chico [X,1] ||| the boy [X,1] ||| -3.14 0 2 17
+[S] ||| el chico [VP,1] ||| the boy [VP,1] ||| -3.14 0 2 17
+[VP] ||| [NP,1] [IN,2] [VB,3] ||| [VB,3] [IN,2] [NP,1] ||| 0.0019026637 0.81322956
+</code></pre>
+</div>
+
+<p>The feature values can have optional labels, e.g.:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[X] ||| el chico [X,1] ||| the boy [X,1] ||| lexprob=-3.14 lexicalized=1 numwords=2 count=17
+</code></pre>
+</div>
+
+<p>One file common to decoding is the glue grammar, which for hiero grammar is defined as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[GOAL] ||| &lt;s&gt; ||| &lt;s&gt; ||| 0
+[GOAL] ||| [GOAL,1] [X,2] ||| [GOAL,1] [X,2] ||| -1
+[GOAL] ||| [GOAL,1] &lt;/s&gt; ||| [GOAL,1] &lt;/s&gt; ||| 0
+</code></pre>
+</div>
+
+<p>Joshua’s <a href="pipeline.html">pipeline</a> supports extraction of Hiero and SAMT grammars via
+<a href="thrax.html">Thrax</a> or GHKM grammars using <a href="http://www-nlp.stanford.edu/~mgalley/">Michel Galley</a>’s
+GHKM extractor (included) or Moses’ GHKM extractor (if Moses is installed).</p>
+
+<h2 id="language-model">Language Model</h2>
+
+<p>Joshua has two language model implementations: <a href="http://kheafield.com/code/kenlm/">KenLM</a> and
+<a href="http://berkeleylm.googlecode.com">BerkeleyLM</a>.  All language model implementations support the
+standard ARPA format output by <a href="http://www.speech.sri.com/projects/srilm/">SRILM</a>.  In addition,
+KenLM and BerkeleyLM support compiled formats that can be loaded more quickly and efficiently. KenLM
+is written in C++ and is supported via a JNI bridge, while BerkeleyLM is written in Java. KenLM is
+the default because of its support for left-state minimization.</p>
+
+<h3 id="compiling-for-kenlm">Compiling for KenLM</h3>
+
+<p>To compile an ARPA grammar for KenLM, use the (provided) <code class="highlighter-rouge">build-binary</code> command, located deep within
+the Joshua source code:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/build_binary lm.arpa lm.kenlm
+</code></pre>
+</div>
+
+<p>This script takes the <code class="highlighter-rouge">lm.arpa</code> file and produces the compiled version in <code class="highlighter-rouge">lm.kenlm</code>.</p>
+
+<h3 id="compiling-for-berkeleylm">Compiling for BerkeleyLM</h3>
+
+<p>To compile a grammar for BerkeleyLM, type:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>java -cp $JOSHUA/lib/berkeleylm.jar -server -mxMEM edu.berkeley.nlp.lm.io.MakeLmBinaryFromArpa lm.arpa lm.berkeleylm
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">lm.berkeleylm</code> file can then be listed directly in the <a href="decoder.html">Joshua configuration file</a>.</p>
+
+<h2 id="joshua-configuration-file">Joshua configuration file</h2>
+
+<p>The <a href="decoder.html">decoder page</a> documents decoder command-line and config file options.</p>
+
+<h2 id="thrax-configuration">Thrax configuration</h2>
+
+<p>See <a href="thrax.html">the thrax page</a> for more information about the Thrax configuration file.</p>
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

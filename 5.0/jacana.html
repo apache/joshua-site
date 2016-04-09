@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Alignment with Jacana</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Alignment with Jacana</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <h2 id="introduction">Introduction</h2>
+
+<p>jacana-xy is a token-based word aligner for machine translation, adapted from the original
+English-English word aligner jacana-align described in the following paper:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>A Lightweight and High Performance Monolingual Word Aligner. Xuchen Yao, Benjamin Van Durme,
+Chris Callison-Burch and Peter Clark. Proceedings of ACL 2013, short papers.
+</code></pre>
+</div>
+
+<p>It currently supports only aligning from French to English with a very limited feature set, from the
+one week hack at the <a href="http://statmt.org/mtm13">Eighth MT Marathon 2013</a>. Please feel free to check
+out the code, read to the bottom of this page, and
+<a href="http://www.cs.jhu.edu/~xuchen/">send the author an email</a> if you want to add more language pairs to
+it.</p>
+
+<h2 id="build">Build</h2>
+
+<p>jacana-xy is written in a mixture of Java and Scala. If you build from ant, you have to set up the
+environmental variables <code class="highlighter-rouge">JAVA_HOME</code> and <code class="highlighter-rouge">SCALA_HOME</code>. In my system, I have:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.26
+export SCALA_HOME=/home/xuchen/Downloads/scala-2.10.2
+</code></pre>
+</div>
+
+<p>Then type:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ant
+</code></pre>
+</div>
+
+<p>build/lib/jacana-xy.jar will be built for you.</p>
+
+<p>If you build from Eclipse, first install scala-ide, then import the whole jacana folder as a Scala project. Eclipse should find the .project file and set up the project automatically for you.</p>
+
+<p>Demo
+scripts-align/runDemoServer.sh shows up the web demo. Direct your browser to http://localhost:8080/ and you should be able to align some sentences.</p>
+
+<p>Note: To make jacana-xy know where to look for resource files, pass the property JACANA_HOME with Java when you run it:</p>
+
+<p>java -DJACANA_HOME=/path/to/jacana -cp jacana-xy.jar ……</p>
+
+<p>Browser
+You can also browse one or two alignment files (*.json) with firefox opening src/web/AlignmentBrowser.html:</p>
+
+<p>Note 1: due to strict security setting for accessing local files, Chrome/IE won’t work.</p>
+
+<p>Note 2: the input *.json files have to be in the same folder with AlignmentBrowser.html.</p>
+
+<p>Align
+scripts-align/alignFile.sh aligns tab-separated sentence files and outputs the output to a .json file that’s accepted by the browser:</p>
+
+<p>java -DJACANA_HOME=../ -jar ../build/lib/jacana-xy.jar -src fr -tgt en -m fr-en.model -a s.txt -o s.json</p>
+
+<p>scripts-align/alignFile.sh takes GIZA++-style input files (one file containing the source sentences, and the other file the target sentences) and outputs to one .align file with dashed alignment indices (e.g. “1-2 0-4”):</p>
+
+<p>java -DJACANA_HOME=../ -jar ../build/lib/jacana-xy.jar -m fr-en.model -src fr -tgt en -a s1.txt -b s2.txt -o s.align</p>
+
+<p>Training
+java -DJACANA_HOME=../ -jar ../build/lib/jacana-xy.jar -r train.json -d dev.json -t test.json -m /tmp/align.model</p>
+
+<p>The aligner then would train on train.json, and report F1 values on dev.json for every 10 iterations, when the stopping criterion has reached, it will test on test.json.</p>
+
+<p>For every 10 iterations, a model file is saved to (in this example) /tmp/align.model.iter_XX.F1_XX.X. Normally what I do is to select the one with the best F1 on dev.json, then run a final test on test.json:</p>
+
+<p>java -DJACANA_HOME=../ -jar ../build/lib/jacana-xy.jar -t test.json -m /tmp/align.model.iter_XX.F1_XX.X</p>
+
+<p>In this case since the training data is missing, the aligner assumes it’s a test job, then reads model file still from the -m option, and test on test.json.</p>
+
+<p>All the json files are in a format like the following (also accepted by the browser for display):</p>
+
+<p>[
+    {
+        “id”: “0008”,
+        “name”: “Hansards.french-english.0008”,
+        “possibleAlign”: “0-0 0-1 0-2”,
+        “source”: “bravo !”,
+        “sureAlign”: “1-3”,
+        “target”: “hear , hear !”
+    },
+    {
+        “id”: “0009”,
+        “name”: “Hansards.french-english.0009”,
+        “possibleAlign”: “1-1 6-5 7-5 6-6 7-6 13-10 13-11”,
+        “source”: “monsieur le Orateur , ma question se adresse à le ministre chargé de les transports .”,
+        “sureAlign”: “0-0 2-1 3-2 4-3 5-4 8-7 9-8 10-9 12-10 14-11 15-12”,
+        “target”: “Mr. Speaker , my question is directed to the Minister of Transport .”
+    }
+]
+Where possibleAlign is not used.</p>
+
+<p>The stopping criterion is to run up to 300 iterations or when the objective difference between two iterations is less than 0.001, whichever happens first. Currently they are hard-coded. If you need to be flexible on this, send me an email!</p>
+
+<p>Support More Languages
+To add support to more languages, you need:</p>
+
+<p>labelled word alignment (in the download there’s already French-English under alignment-data/fr-en; I also have Chinese-English and Arabic-English; let me know if you have more). Usually 100 labelled sentence pairs would be enough
+implement some feature functions for this language pair
+To add more features, you need to implement the following interface:</p>
+
+<p>edu.jhu.jacana.align.feature.AlignFeature</p>
+
+<p>and override the following function:</p>
+
+<p>addPhraseBasedFeature</p>
+
+<p>For instance, a simple feature that checks whether the two words are translations in wiktionary for the French-English alignment task has the function implemented as:</p>
+
+<p>def addPhraseBasedFeature(pair: AlignPair, ins:AlignFeatureVector, i:Int, srcSpan:Int, j:Int, tgtSpan:Int,
+      currState:Int, featureAlphabet: Alphabet){
+  if (j == -1) {
+  } else {
+    val srcTokens = pair.srcTokens.slice(i, i+srcSpan).mkString(“ “)
+    val tgtTokens = pair.tgtTokens.slice(j, j+tgtSpan).mkString(“ “)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if (WiktionaryMultilingual.exists(srcTokens, tgtTokens)) {
+  ins.addFeature("InWiktionary", NONE_STATE, currState, 1.0, srcSpan, featureAlphabet) 
+}
+</code></pre>
+</div>
+
+<p>}     <br />
+}
+This is a more general function that also deals with phrase alignment. But it is suggested to implement it just for token alignment as currently the phrase alignment part is very slow to train (60x slower than token alignment).</p>
+
+<p>Some other language-independent and English-only features are implemented under the package edu.jhu.jacana.align.feature, for instance:</p>
+
+<p>StringSimilarityAlignFeature: various string similarity measures</p>
+
+<p>PositionalAlignFeature: features based on relative sentence positions</p>
+
+<p>DistortionAlignFeature: Markovian (state transition) features</p>
+
+<p>When you add features for more languages, just create a new package like the one for French-English:</p>
+
+<p>edu.jhu.jacana.align.feature.fr_en</p>
+
+<p>and start coding!</p>
+
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

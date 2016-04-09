@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Building Translation Models</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Building Translation Models</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <h1 id="build-a-translation-model">Build a translation model</h1>
+
+<p>Extracting a grammar from a large amount of data is a multi-step process. The first requirement is parallel data. The Europarl, Call Home, and Fisher corpora all contain parallel translations of Spanish and English sentences.</p>
+
+<p>We will copy (or symlink) the parallel source text files in a subdirectory called <code class="highlighter-rouge">input/</code>.</p>
+
+<p>Then, we concatenate all the training files on each side. The pipeline script normally does tokenization and normalization, but in this instance we have a custom tokenizer we need to apply to the source side, so we have to do it manually and then skip that step using the <code class="highlighter-rouge">pipeline.pl</code> option <code class="highlighter-rouge">--first-step alignment</code>.</p>
+
+<ul>
+  <li>
+    <p>to tokenize the English data, do</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>cat callhome.en europarl.en fisher.en &gt; all.en</td>
+          <td>$JOSHUA/scripts/training/normalize-punctuation.pl en</td>
+          <td>$JOSHUA/scripts/training/penn-treebank-tokenizer.perl</td>
+          <td>$JOSHUA/scripts/lowercase.perl &gt; all.norm.tok.lc.en</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p>The same can be done for the Spanish side of the input data:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cat callhome.es europarl.es fisher.es &gt; all.es | $JOSHUA/scripts/training/normalize-punctuation.pl es | $JOSHUA/scripts/training/penn-treebank-tokenizer.perl | $JOSHUA/scripts/lowercase.perl &gt; all.norm.tok.lc.es
+</code></pre>
+</div>
+
+<p>By the way, an alternative tokenizer is a Twitter tokenizer found in the <a href="http://github.com/vandurme/jerboa">Jerboa</a> project.</p>
+
+<p>The final step in the training data preparation is to remove all examples in which either of the language sides is a blank line.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>paste all.norm.tok.lc.es all.norm.tok.lc.en | grep -Pv "^\t|\t$" \
+  | ./splittabs.pl all.norm.tok.lc.noblanks.es all.norm.tok.lc.noblanks.en
+</code></pre>
+</div>
+
+<p>contents of <code class="highlighter-rouge">splittabls.pl</code> by Matt Post:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">#!/usr/bin/perl</span>
+
+<span class="c1"># splits on tab, printing respective chunks to the list of files given</span>
+<span class="c1"># as script arguments</span>
+
+<span class="k">use</span> <span class="nv">FileHandle</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">@fh</span><span class="p">;</span>
+<span class="vg">$|</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>   <span class="c1"># don't buffer output</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">@ARGV</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">print</span> <span class="s">"Usage: splittabs.pl &lt; tabbed-file\n"</span><span class="p">;</span>
+  <span class="nb">exit</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">my</span> <span class="nv">@fh</span> <span class="o">=</span> <span class="nb">map</span> <span class="p">{</span> <span class="nv">get_filehandle</span><span class="p">(</span><span class="nv">$_</span><span class="p">)</span> <span class="p">}</span> <span class="nv">@ARGV</span><span class="p">;</span>
+<span class="nv">@ARGV</span> <span class="o">=</span> <span class="p">();</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="k">my</span> <span class="nv">$line</span> <span class="o">=</span> <span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nb">chomp</span><span class="p">(</span><span class="nv">$line</span><span class="p">);</span>
+  <span class="k">my</span> <span class="p">(</span><span class="nv">@fields</span><span class="p">)</span> <span class="o">=</span> <span class="nb">split</span><span class="p">(</span><span class="sr">/\t/</span><span class="p">,</span><span class="nv">$line</span><span class="p">,</span><span class="nb">scalar</span> <span class="nv">@fh</span><span class="p">);</span>
+
+  <span class="nb">map</span> <span class="p">{</span> <span class="k">print</span> <span class="p">{</span><span class="nv">$fh</span><span class="p">[</span><span class="nv">$_</span><span class="p">]}</span> <span class="s">"$fields[$_]\n"</span> <span class="p">}</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="nv">$#fields</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">sub </span><span class="nf">get_filehandle</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$file</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="ow">eq</span> <span class="s">"-"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">*</span><span class="bp">STDOUT</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">local</span> <span class="o">*</span><span class="nv">FH</span><span class="p">;</span>
+        <span class="nb">open</span> <span class="nv">FH</span><span class="p">,</span> <span class="s">"&gt;$file"</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">"can't open '$file' for writing"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">*</span><span class="nv">FH</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now we can run the pipeline to extract the grammar. Run the following script:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c"># this creates a grammar</span>
+
+<span class="c"># NEED:</span>
+<span class="c"># pair</span>
+<span class="c"># type</span>
+
+<span class="nb">set</span> -u
+
+<span class="nv">pair</span><span class="o">=</span>es-en
+<span class="nb">type</span><span class="o">=</span>hiero
+
+<span class="c">#. ~/.bashrc</span>
+
+<span class="c">#basedir=$(pwd)</span>
+
+<span class="nv">dir</span><span class="o">=</span>grammar-<span class="nv">$pair</span>-<span class="nv">$type</span>
+
+<span class="o">[[</span> ! -d <span class="nv">$dir</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> mkdir -p <span class="nv">$dir</span>
+<span class="nb">cd</span> <span class="nv">$dir</span>
+
+<span class="nb">source</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$pair</span> | cut -d- -f 1<span class="k">)</span>
+<span class="nv">target</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$pair</span> | cut -d- -f 2<span class="k">)</span>
+
+<span class="nv">$JOSHUA</span>/scripts/training/pipeline.pl <span class="se">\</span>
+  --source <span class="nv">$source</span> <span class="se">\</span>
+  --target <span class="nv">$target</span> <span class="se">\</span>
+  --corpus /home/hltcoe/lorland/expts/scale12/model1/input/all.norm.tok.lc.noblanks <span class="se">\</span>
+  --type <span class="nv">$type</span> <span class="se">\</span>
+  --joshua-mem 100g <span class="se">\</span>
+  --no-prepare <span class="se">\</span>
+  --first-step align <span class="se">\</span>
+  --last-step thrax <span class="se">\</span>
+  --hadoop <span class="nv">$HADOOP</span> <span class="se">\</span>
+  --threads 8 <span class="se">\</span>
+</code></pre>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

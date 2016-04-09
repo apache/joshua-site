@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Pipeline tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Pipeline tutorial</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <p>This document will walk you through using the pipeline in a variety of scenarios. Once you’ve gained a
+sense for how the pipeline works, you can consult the <a href="pipeline.html">pipeline page</a> for a number of
+other options available in the pipeline.</p>
+
+<h2 id="download-and-setup">Download and Setup</h2>
+
+<p>Download and install Joshua as described on the <a href="index.html">quick start page</a>, installing it under
+<code class="highlighter-rouge">~/code/</code>. Once you’ve done that, you should make sure you have the following environment variable set:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export JOSHUA=$HOME/code/joshua-v5.0
+export JAVA_HOME=/usr/java/default
+</code></pre>
+</div>
+
+<p>If you have a Hadoop installation, make sure you’ve set <code class="highlighter-rouge">$HADOOP</code> to point to it (if not, Joshua
+will roll out a standalone cluster for you). If you’d like to use kbmira for tuning, you should also
+install Moses, and define the environment variable <code class="highlighter-rouge">$MOSES</code> to point to the root of its installation.</p>
+
+<h2 id="a-basic-pipeline-run">A basic pipeline run</h2>
+
+<p>For today’s experiments, we’ll be building a Bengali–English system using data included in the
+<a href="/indian-parallel-corpora/">Indian Languages Parallel Corpora</a>. This data was collected by taking
+the 100 most-popular Bengali Wikipedia pages and translating them into English using Amazon’s
+<a href="http://www.mturk.com/">Mechanical Turk</a>. As a warning, many of these pages contain material that is
+not typically found in machine translation tutorials.</p>
+
+<p>Download the data and install it somewhere:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/data
+wget -q --no-check -O indian-parallel-corpora.zip https://github.com/joshua-decoder/indian-parallel-corpora/archive/master.zip
+unzip indian-parallel-corpora.zip
+</code></pre>
+</div>
+
+<p>Then define the environment variable <code class="highlighter-rouge">$INDIAN</code> to point to it:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/data/indian-parallel-corpora-master
+export INDIAN=$(pwd)
+</code></pre>
+</div>
+
+<h3 id="preparing-the-data">Preparing the data</h3>
+
+<p>Inside this tarball is a directory for each language pair. Within each language directory is another
+directory named <code class="highlighter-rouge">tok/</code>, which contains pre-tokenized and normalized versions of the data. This was
+done because the normalization scripts provided with Joshua is written in scripting languages that
+often have problems properly handling UTF-8 character sets. We will be using these tokenized
+versions, and preventing the pipeline from retokenizing using the <code class="highlighter-rouge">--no-prepare</code> flag.</p>
+
+<p>In <code class="highlighter-rouge">$INDIAN/bn-en/tok</code>, you should see the following files:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ ls $INDIAN/bn-en/tok
+dev.bn-en.bn     devtest.bn-en.bn     dict.bn-en.bn     test.bn-en.en.2
+dev.bn-en.en.0   devtest.bn-en.en.0   dict.bn-en.en     test.bn-en.en.3
+dev.bn-en.en.1   devtest.bn-en.en.1   test.bn-en.bn     training.bn-en.bn
+dev.bn-en.en.2   devtest.bn-en.en.2   test.bn-en.en.0   training.bn-en.en
+dev.bn-en.en.3   devtest.bn-en.en.3   test.bn-en.en.1
+</code></pre>
+</div>
+
+<p>We will now use this data to test the complete pipeline with a single command.</p>
+
+<h3 id="run-the-pipeline">Run the pipeline</h3>
+
+<p>Create an experiments directory for containing your first experiment:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir ~/expts/joshua
+cd ~/expts/joshua
+</code></pre>
+</div>
+
+<p>We will now create the baseline run, using a particular directory structure for experiments that
+will allow us to take advantage of scripts provided with Joshua for displaying the results of many
+related experiments.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~/expts/joshua
+$JOSHUA/bin/pipeline.pl           \
+  --rundir 1                      \
+  --readme "Baseline Hiero run"   \
+  --source bn                     \
+  --target en                     \
+  --corpus $INDIAN/bn-en/tok/training.bn-en \
+  --corpus $INDIAN/bn-en/tok/dict.bn-en     \
+  --tune $INDIAN/bn-en/tok/dev.bn-en        \
+  --test $INDIAN/bn-en/tok/devtest.bn-en    \
+  --lm-order 3
+</code></pre>
+</div>
+
+<p>This will start the pipeline building a Bengali–English translation system constructed from the
+training data and a dictionary, tuned against dev, and tested against devtest. It will use the
+default values for most of the pipeline: <a href="https://code.google.com/p/giza-pp/">GIZA++</a> for alignment,
+KenLM’s <code class="highlighter-rouge">lmplz</code> for building the language model, Z-MERT for tuning, KenLM with left-state
+minimization for representing LM state in the decoder, and so on. We change the order of the n-gram
+model to 3 (from its default of 5) because there is not enough data to build a 5-gram LM.</p>
+
+<p>A few notes:</p>
+
+<ul>
+  <li>
+    <p>This will likely take many hours to run, especially if you don’t have a Hadoop cluster.</p>
+  </li>
+  <li>
+    <p>If you are running on Mac OS X, KenLM’s <code class="highlighter-rouge">lmplz</code> will not build due to the absence of static
+libraries. In that case, you should add the flag <code class="highlighter-rouge">--lm-gen srilm</code> (recommended, if SRILM is
+installed) or <code class="highlighter-rouge">--lm-gen berkeleylm</code>.</p>
+  </li>
+</ul>
+
+<h3 id="variations">Variations</h3>
+
+<p>Once that is finished, you will have a baseline model. From there, you might wish to try variations
+of the baseline model. Here are some examples of what you could vary:</p>
+
+<ul>
+  <li>
+    <p>Build an SAMT model (<code class="highlighter-rouge">--type samt</code>), GKHM model (<code class="highlighter-rouge">--type ghkm</code>), or phrasal ITG model (<code class="highlighter-rouge">--type phrasal</code>) </p>
+  </li>
+  <li>
+    <p>Use the Berkeley aligner instead of GIZA++ (<code class="highlighter-rouge">--aligner berkeley</code>)</p>
+  </li>
+  <li>
+    <p>Build the language model with BerkeleyLM (<code class="highlighter-rouge">--lm-gen srilm</code>) instead of KenLM (the default)</p>
+  </li>
+  <li>
+    <p>Change the order of the LM from the default of 5 (<code class="highlighter-rouge">--lm-order 4</code>)</p>
+  </li>
+  <li>
+    <p>Tune with MIRA instead of MERT (<code class="highlighter-rouge">--tuner mira</code>). This requires that Moses is installed.</p>
+  </li>
+  <li>
+    <p>Decode with a wider beam (<code class="highlighter-rouge">--joshua-args '-pop-limit 200'</code>) (the default is 100)</p>
+  </li>
+  <li>
+    <p>Add the provided BN-EN dictionary to the training data (add another <code class="highlighter-rouge">--corpus</code> line, e.g., <code class="highlighter-rouge">--corpus $INDIAN/bn-en/dict.bn-en</code>)</p>
+  </li>
+</ul>
+
+<p>To do this, we will create new runs that partially reuse the results of previous runs. This is
+possible by doing two things: (1) incrementing the run directory and providing an updated README
+note; (2) telling the pipeline which of the many steps of the pipeline to begin at; and (3)
+providing the needed dependencies.</p>
+
+<h1 id="a-second-run">A second run</h1>
+
+<p>Let’s begin by changing the tuner, to see what effect that has. To do so, we change the run
+directory, tell the pipeline to start at the tuning step, and provide the needed dependencies:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/pipeline.pl           \
+  --rundir 2                      \
+  --readme "Tuning with MIRA"     \
+  --source bn                     \
+  --target en                     \
+  --corpus $INDIAN/bn-en/tok/training.bn-en \
+  --tune $INDIAN/bn-en/tok/dev.bn-en        \
+  --test $INDIAN/bn-en/tok/devtest.bn-en    \
+  --first-step tune \
+  --tuner mira \
+  --grammar 1/grammar.gz \
+  --no-corpus-lm \
+  --lmfile 1/lm.gz
+</code></pre>
+</div>
+
+<p>Here, we have essentially the same invocation, but we have told the pipeline to use a different
+ MIRA, to start with tuning, and have provided it with the language model file and grammar it needs
+ to execute the tuning step. </p>
+
+<p>Note that we have also told it not to build a language model. This is necessary because the
+ pipeline always builds an LM on the target side of the training data, if provided, but we are
+ supplying the language model that was already built. We could equivalently have removed the
+ <code class="highlighter-rouge">--corpus</code> line.</p>
+
+<h2 id="changing-the-model-type">Changing the model type</h2>
+
+<p>Let’s compare the Hiero model we’ve already built to an SAMT model. We have to reextract the
+grammar, but can reuse the alignments and the language model:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/pipeline.pl           \
+  --rundir 3                      \
+  --readme "Baseline SAMT model"  \
+  --source bn                     \
+  --target en                     \
+  --corpus $INDIAN/bn-en/tok/training.bn-en \
+  --tune $INDIAN/bn-en/tok/dev.bn-en        \
+  --test $INDIAN/bn-en/tok/devtest.bn-en    \
+  --alignment 1/alignments/training.align   \
+  --first-step parse \
+  --no-corpus-lm \
+  --lmfile 1/lm.gz
+</code></pre>
+</div>
+
+<p>See <a href="pipeline.html#steps">the pipeline script page</a> for a list of all the steps.</p>
+
+<h2 id="analyzing-the-results">Analyzing the results</h2>
+
+<p>We now have three runs, in subdirectories 1, 2, and 3. We can display summary results from them
+using the <code class="highlighter-rouge">$JOSHUA/scripts/training/summarize.pl</code> script.</p>
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

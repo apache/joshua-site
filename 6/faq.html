@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Joshua Documentation | Frequently Asked Questions</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/joshua6.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <!-- <a class="blog-nav-item active" href="#">Joshua</a> -->
+          <a class="blog-nav-item" href="/">Joshua</a>
+          <!-- <a class="blog-nav-item" href="/6.0/whats-new.html">New features</a> -->
+          <a class="blog-nav-item" href="/language-packs/">Language packs</a>
+          <a class="blog-nav-item" href="/data/">Datasets</a>
+          <a class="blog-nav-item" href="/support/">Support</a>
+          <a class="blog-nav-item" href="/contributors.html">Contributors</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-sm-2">
+          <div class="sidebar-module">
+            <!-- <h4>About</h4> -->
+            <center>
+            <img src="/images/joshua-logo-small.png" />
+            <p>Joshua machine translation toolkit</p>
+            </center>
+          </div>
+          <hr>
+          <center>
+            <a href="/releases/current/" target="_blank"><button class="button">Download Joshua 6.0.5</button></a>
+            <br />
+            <a href="/releases/runtime/" target="_blank"><button class="button">Runtime only version</button></a>
+            <p>Released November 5, 2015</p>
+          </center>
+          <hr>
+          <!-- <div class="sidebar-module"> -->
+          <!--   <span id="download"> -->
+          <!--     <a href="http://joshua-decoder.org/downloads/joshua-6.0.tgz">Download</a> -->
+          <!--   </span> -->
+          <!-- </div> -->
+          <div class="sidebar-module">
+            <h4>Using Joshua</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/install.html">Installation</a></li>
+              <li><a href="/6.0/quick-start.html">Quick Start</a></li>
+            </ol>
+          </div>
+          <hr>
+          <div class="sidebar-module">
+            <h4>Building new models</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/pipeline.html">Pipeline</a></li>
+              <li><a href="/6.0/tutorial.html">Tutorial</a></li>
+              <li><a href="/6.0/faq.html">FAQ</a></li>
+            </ol>
+          </div>
+<!--
+          <div class="sidebar-module">
+            <h4>Phrase-based</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/phrase.html">Training</a></li>
+            </ol>
+          </div>
+-->
+          <hr>
+          <div class="sidebar-module">
+            <h4>Advanced</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/bundle.html">Building language packs</a></li>
+              <li><a href="/6.0/decoder.html">Decoder options</a></li>
+              <li><a href="/6.0/file-formats.html">File formats</a></li>
+              <li><a href="/6.0/packing.html">Packing TMs</a></li>
+              <li><a href="/6.0/large-lms.html">Building large LMs</a></li>
+            </ol>
+          </div>
+
+          <hr> 
+          <div class="sidebar-module">
+            <h4>Developer</h4>
+            <ol class="list-unstyled">              
+		<li><a href="https://github.com/joshua-decoder/joshua">Github</a></li>
+		<li><a href="http://cs.jhu.edu/~post/joshua-docs">Javadoc</a></li>
+		<li><a href="https://groups.google.com/forum/?fromgroups#!forum/joshua_developers">Mailing list</a></li>              
+            </ol>
+          </div>
+
+        </div><!-- /.blog-sidebar -->
+
+        
+        <div class="col-sm-8 blog-main">
+        
+
+          <div class="blog-title">
+            <h2>Frequently Asked Questions</h2>
+          </div>
+          
+          <div class="blog-post">
+
+            <p>Solutions to common problems will be posted here as we become aware of
+them.  If you need help with something, please check
+<a href="https://groups.google.com/forum/#!forum/joshua_support">our support group</a>
+for a solution, or
+<a href="https://groups.google.com/forum/#!newtopic/joshua_support">post a new question</a>.</p>
+
+<h3 id="i-get-a-message-stating-no-ken-in-javalibrarypath">I get a message stating: “no ken in java.library.path”</h3>
+
+<p>This occurs when <a href="https://kheafield.com/code/kenlm/">KenLM</a> failed to
+build. This can occur for a number of reasons:</p>
+
+<ul>
+  <li>
+    <p><a href="http://www.boost.org/">Boost</a> isn’t installed. Boost is
+available through most package management tools, so try that
+first. You can also build it from source.</p>
+  </li>
+  <li>
+    <p>Boost is installed, but not in your path. The easiest solution is
+to add the boost library directory to your <code class="highlighter-rouge">$LD_LIBRARY_PATH</code>
+environment variable. You can also edit the file
+<code class="highlighter-rouge">$JOSHUA/src/joshua/decoder/ff/lm/kenlm/Makefile</code> and define
+<code class="highlighter-rouge">BOOST_ROOT</code> to point to your boost location. Then rebuild KenLM
+with the command</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>ant -f $JOSHUA/build.xml kenlm
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>You have run into boost’s weird naming of multi-threaded
+libraries. For some reason, boost libraries sometimes have a
+<code class="highlighter-rouge">-mt</code> extension applied when they are built with multi-threaded
+support. This will cause the linker to fail, since it is looking
+for, e.g., <code class="highlighter-rouge">-lboost_system</code> instead of <code class="highlighter-rouge">-lboost_system-mt</code>. Edit
+the same Makefile as above and uncomment the <code class="highlighter-rouge">BOOST_MT = -mt</code>
+line, then try to compile again with</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>ant -f $JOSHUA.build.xml kenlm
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<p>You may find the following reference URLs to be useful.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://groups.google.com/forum/#!topic/joshua_support/SiGO41tkpsw
+http://stackoverflow.com/questions/12583080/c-library-in-using-boost-library
+</code></pre>
+</div>
+
+<h3 id="how-do-i-make-joshua-produce-better-results">How do I make Joshua produce better results?</h3>
+
+<p>One way is to add a larger language model. Build on Gigaword, news
+crawl data, etc. <code class="highlighter-rouge">lmplz</code> makes it easy to build and efficient to
+represent (especially if you compress it with `build_binary). To
+include it in Joshua, there are two ways:</p>
+
+<ul>
+  <li>
+    <p><em>Pipeline</em>. By default, Joshua’s pipeline builds a language
+ model on the target side of your parallel training data. But
+ Joshua can decode with any number of additional language models
+ as well. So you can build a language model separately,
+ presumably on much more data (since you won’t be constrained
+ only to one side of parallel data, which is much more scarce
+ than monolingual data). Once you’ve built extra language models
+ and compiled them with KenLM’s <code class="highlighter-rouge">build_binary</code> script, you can
+ tell the pipeline to use them with any number of <code class="highlighter-rouge">--lmfile
+ /path/to/lm/file</code> flags.</p>
+  </li>
+  <li>
+    <p><em>Joshua</em> (directly).
+    <a href="http://localhost:4000/6.0/file-formats.html">This file</a>
+    documents the Joshua configuration file format.</p>
+  </li>
+</ul>
+
+<h3 id="i-have-already-run-the-pipeline-once-how-do-i-run-it-again-skipping-the-early-stages-and-just-retuning-the-model">I have already run the pipeline once. How do I run it again, skipping the early stages and just retuning the model?</h3>
+
+<p>You would need to do this if, for example, you added a language
+model, or changed some other parameter (e.g., an improvement to the
+decoder). To do this, follow the following steps:</p>
+
+<ul>
+  <li>Re-run the pipeline giving it a new <code class="highlighter-rouge">--rundir N+1</code> (where <code class="highlighter-rouge">N</code> is the last
+run, and <code class="highlighter-rouge">N+1</code> is a new, non-existent directory). </li>
+  <li>Give it all the other flags that you gave before, such as the
+tuning data, testing data, source and target flags, etc. You
+don’t have to give it the training data.</li>
+  <li>Tell it to start at the tuning step with <code class="highlighter-rouge">--first-step TUNE</code></li>
+  <li>Tell it where all of your language model files are with <code class="highlighter-rouge">--lmfile
+/path/to/lm</code> lines. You also have to tell it where the main
+language model is, which is usually <code class="highlighter-rouge">--lmfile N/lm.kenlm</code> (paths
+are relative to the directory above the run directory.</li>
+  <li>Tell it where the main grammar is, e.g., <code class="highlighter-rouge">--grammar
+N/grammar.gz</code>. If the tuning and test data hasn’t changed, you
+can also point it to the filtered and packed versions to save a
+little time using <code class="highlighter-rouge">--tune-grammar N/data/tune/grammar.packed</code> and
+<code class="highlighter-rouge">--test-grammar N/data/test/grammar.packed</code>, where <code class="highlighter-rouge">N</code> here again
+is the previous run (or some other run; it can be anywhere).</li>
+</ul>
+
+<p>Here’s an example. Let’s say you ran a full pipeline as run 1, and
+now added a new language model and want to see how it affects the
+decoder. Your first run might have been invoked like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/scripts/training/pipeline.pl \
+  --rundir 1 \
+  --readme "Baseline French--English Europarl hiero system" \
+  --corpus /path/to/europarl \
+  --tune /path/to/europarl/tune \
+  --test /path/to/europarl/test \
+  --source fr \
+  --target en \
+  --threads 8 \
+  --joshua-mem 30g \
+  --tuner mira \
+  --type hiero \
+  --aligner berkeley
+</code></pre>
+</div>
+
+<p>Your new run will look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/scripts/training/pipeline.pl \
+  --rundir 2 \
+  --readme "Adding in a huge language model" \
+  --tune /path/to/europarl/tune \
+  --test /path/to/europarl/test \
+  --source fr \
+  --target en \
+  --threads 8 \
+  --joshua-mem 30g \
+  --tuner mira \
+  --type hiero \
+  --aligner berkeley \
+  --first-step TUNE \
+  --lmfile 1/lm.kenlm \
+  --lmfile /path/to/huge/new/lm \
+  --tune-grammar 1/data/tune/grammar.packed \
+  --test-grammar 1/data/test/grammar.packed
+</code></pre>
+</div>
+
+<p>Notice the changes: we removed the <code class="highlighter-rouge">--corpus</code> (though it would have
+been fine to have left it, it would have just been skipped),
+specified the first step, changed the run directory and README
+comments, and pointed to the grammars and <em>both</em> language model files.</p>
+
+<p>How can I enable specific feature functions?</p>
+
+<p>Let’s say you created a new feature function, <code class="highlighter-rouge">OracleFeature</code>, and
+you want to enable it. You can do this in two ways. Through the
+pipeline, simply pass it the argument <code class="highlighter-rouge">--joshua-args "list of
+joshua args"</code>. These will then be passed to the decoder when it is
+invoked. You can enable your feature functions, then using
+something like</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/pipeline.pl --joshua-args '-feature-function OracleFeature'   
+</code></pre>
+</div>
+
+<p>If you call the decoder directly, you can just put that line in
+the configuration file, e.g.,</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>feature-function = OracleFeature
+</code></pre>
+</div>
+
+<p>or you can pass it directly to Joshua on the command line using
+the standard notation, e.g.,</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/joshua-decoder -feature-function OracleFeature
+</code></pre>
+</div>
+
+<p>These could be stacked, e.g.,</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/joshua-decoder -feature-function OracleFeature \
+    -feature-function MagicFeature \
+    -feature-function MTSolverFeature \
+    ...
+</code></pre>
+</div>
+
+
+          <!--   <h4 class="blog-post-title">Welcome to Joshua!</h4> -->
+
+          <!--   <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p> -->
+          <!--   <hr> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p> -->
+          <!--   <blockquote> -->
+          <!--     <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> -->
+          <!--   </blockquote> -->
+          <!--   <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p> -->
+          <!--   <h2>Heading</h2> -->
+          <!--   <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p> -->
+          <!--   <h3>Sub-heading</h3> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> -->
+          <!--   <pre><code>Example code block</code></pre> -->
+          <!--   <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p> -->
+          <!--   <h3>Sub-heading</h3> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p> -->
+          <!--   <ul> -->
+          <!--     <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li> -->
+          <!--     <li>Donec id elit non mi porta gravida at eget metus.</li> -->
+          <!--     <li>Nulla vitae elit libero, a pharetra augue.</li> -->
+          <!--   </ul> -->
+          <!--   <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p> -->
+          <!--   <ol> -->
+          <!--     <li>Vestibulum id ligula porta felis euismod semper.</li> -->
+          <!--     <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li> -->
+          <!--     <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li> -->
+          <!--   </ol> -->
+          <!--   <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p> -->
+          <!-- </div><\!-- /.blog-post -\-> -->
+
+        </div>
+
+      </div><!-- /.row -->
+
+      
+        
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- <script src="../../assets/js/docs.min.js"></script> -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    -->
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>
+

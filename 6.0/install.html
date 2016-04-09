@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Joshua Documentation | Installation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/joshua6.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <!-- <a class="blog-nav-item active" href="#">Joshua</a> -->
+          <a class="blog-nav-item" href="/">Joshua</a>
+          <!-- <a class="blog-nav-item" href="/6.0/whats-new.html">New features</a> -->
+          <a class="blog-nav-item" href="/language-packs/">Language packs</a>
+          <a class="blog-nav-item" href="/data/">Datasets</a>
+          <a class="blog-nav-item" href="/support/">Support</a>
+          <a class="blog-nav-item" href="/contributors.html">Contributors</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-sm-2">
+          <div class="sidebar-module">
+            <!-- <h4>About</h4> -->
+            <center>
+            <img src="/images/joshua-logo-small.png" />
+            <p>Joshua machine translation toolkit</p>
+            </center>
+          </div>
+          <hr>
+          <center>
+            <a href="/releases/current/" target="_blank"><button class="button">Download Joshua 6.0.5</button></a>
+            <br />
+            <a href="/releases/runtime/" target="_blank"><button class="button">Runtime only version</button></a>
+            <p>Released November 5, 2015</p>
+          </center>
+          <hr>
+          <!-- <div class="sidebar-module"> -->
+          <!--   <span id="download"> -->
+          <!--     <a href="http://joshua-decoder.org/downloads/joshua-6.0.tgz">Download</a> -->
+          <!--   </span> -->
+          <!-- </div> -->
+          <div class="sidebar-module">
+            <h4>Using Joshua</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/install.html">Installation</a></li>
+              <li><a href="/6.0/quick-start.html">Quick Start</a></li>
+            </ol>
+          </div>
+          <hr>
+          <div class="sidebar-module">
+            <h4>Building new models</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/pipeline.html">Pipeline</a></li>
+              <li><a href="/6.0/tutorial.html">Tutorial</a></li>
+              <li><a href="/6.0/faq.html">FAQ</a></li>
+            </ol>
+          </div>
+<!--
+          <div class="sidebar-module">
+            <h4>Phrase-based</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/phrase.html">Training</a></li>
+            </ol>
+          </div>
+-->
+          <hr>
+          <div class="sidebar-module">
+            <h4>Advanced</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/bundle.html">Building language packs</a></li>
+              <li><a href="/6.0/decoder.html">Decoder options</a></li>
+              <li><a href="/6.0/file-formats.html">File formats</a></li>
+              <li><a href="/6.0/packing.html">Packing TMs</a></li>
+              <li><a href="/6.0/large-lms.html">Building large LMs</a></li>
+            </ol>
+          </div>
+
+          <hr> 
+          <div class="sidebar-module">
+            <h4>Developer</h4>
+            <ol class="list-unstyled">              
+		<li><a href="https://github.com/joshua-decoder/joshua">Github</a></li>
+		<li><a href="http://cs.jhu.edu/~post/joshua-docs">Javadoc</a></li>
+		<li><a href="https://groups.google.com/forum/?fromgroups#!forum/joshua_developers">Mailing list</a></li>              
+            </ol>
+          </div>
+
+        </div><!-- /.blog-sidebar -->
+
+        
+        <div class="col-sm-8 blog-main">
+        
+
+          <div class="blog-title">
+            <h2>Installation</h2>
+          </div>
+          
+          <div class="blog-post">
+
+            <h3 id="download-and-install">Download and install</h3>
+
+<p>To use Joshua as a standalone decoder (with <a href="/language-packs/">language packs</a>), you only need to download and install the runtime version of the decoder. 
+If you also wish to build translation models from your own data, you will want to install the full version.
+See the instructions below.</p>
+
+<ol>
+  <li>
+    <p>Set up some basic environment variables. 
+You need to define <code class="highlighter-rouge">$JAVA_HOME</code></p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>export JAVA_HOME=/path/to/java
+
+# JAVA_HOME is not very standardized. Here are some places to look:
+# OS X:  export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home
+# Linux: export JAVA_HOME=/usr/java/default
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>If you are installing the full version of Joshua, you also need to define <code class="highlighter-rouge">$HADOOP</code> to point to your Hadoop installation.
+(Joshua looks for the Hadoop executuble in <code class="highlighter-rouge">$HADOOP/bin/hadoop</code>)</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>export HADOOP=/usr
+</code></pre>
+    </div>
+
+    <p>If you don’t have a Hadoop installation, <a href="pipeline.html">Joshua’s pipeline</a> can install a standalone version for you.</p>
+  </li>
+  <li>
+    <p>To install just the runtime version of Joshua, type</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>wget -q http://cs.jhu.edu/~post/files/joshua-runtime-6.0.5.tgz
+</code></pre>
+    </div>
+
+    <p>Then build everything</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>tar xzf joshua-runtime-6.0.5.tgz
+cd joshua-runtime-6.0.5
+
+# Add this to your init files
+export JOSHUA=$(pwd)
+   
+# build everything
+ant
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>To instead install the full version, type</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>wget -q http://cs.jhu.edu/~post/files/joshua-6.0.5.tgz
+
+tar xzf joshua-6.0.5.tgz
+cd joshua-6.0.5
+
+# Add this to your init files
+export JOSHUA=$(pwd)
+   
+# build everything
+ant
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<h3 id="building-new-models">Building new models</h3>
+
+<p>If you wish to build models for new language pairs from existing data (such as the <a href="http://statmt.org/wmt14/">WMT data</a>), you need to install some additional dependencies.</p>
+
+<ol>
+  <li>
+    <p>For learning hierarchical models, Joshua includes a tool called <a href="thrax.html">Thrax</a>, which
+is built on Hadoop. If you have a Hadoop installation, make sure that the environment variable
+<code class="highlighter-rouge">$HADOOP</code> is set and points to it. If you don’t, Joshua will roll one out for you in standalone
+mode. Hadoop is only needed if you plan to build new models with Joshua.</p>
+  </li>
+  <li>
+    <p>You will need to install Moses if either of the following applies to you:</p>
+
+    <ul>
+      <li>
+        <p>You wish to build <a href="phrase.html">phrase-based models</a> (Joshua 6 includes a phrase-based
+decoder, but not the tools for building such a model)</p>
+      </li>
+      <li>
+        <p>You are building your own models (phrase- or syntax-based) and wish to use Cherry &amp; Foster’s
+<a href="http://aclweb.org/anthology-new/N/N12/N12-1047v2.pdf">batch MIRA tuner</a> instead of the included
+MERT implementation, <a href="zmert.html">Z-MERT</a>. </p>
+      </li>
+    </ul>
+
+    <p>Follow <a href="http://www.statmt.org/moses/?n=Development.GetStarted">the instructions for installing Moses
+here</a>, and then define the <code class="highlighter-rouge">$MOSES</code>
+environment variable to point to the root of the Moses installation.</p>
+  </li>
+</ol>
+
+<h2 id="more-information">More information</h2>
+
+<p>For more detail on the decoder itself, including its command-line options, see
+<a href="decoder.html">the Joshua decoder page</a>.  You can also learn more about other steps of
+<a href="pipeline.html">the Joshua MT pipeline</a>, including <a href="thrax.html">grammar extraction</a> with Thrax and
+Joshua’s <a href="packing.html">efficient grammar representation</a>.</p>
+
+<p>If you have problems or issues, you might find some help <a href="faq.html">on our answers page</a> or
+<a href="https://groups.google.com/forum/?fromgroups#!forum/joshua_support">in the mailing list archives</a>.</p>
+
+<p>A <a href="bundle.html">bundled configuration</a>, which is a minimal set of configuration, resource, and script files, can be created and easily transferred and shared.</p>
+
+
+          <!--   <h4 class="blog-post-title">Welcome to Joshua!</h4> -->
+
+          <!--   <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p> -->
+          <!--   <hr> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p> -->
+          <!--   <blockquote> -->
+          <!--     <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> -->
+          <!--   </blockquote> -->
+          <!--   <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p> -->
+          <!--   <h2>Heading</h2> -->
+          <!--   <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p> -->
+          <!--   <h3>Sub-heading</h3> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> -->
+          <!--   <pre><code>Example code block</code></pre> -->
+          <!--   <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p> -->
+          <!--   <h3>Sub-heading</h3> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p> -->
+          <!--   <ul> -->
+          <!--     <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li> -->
+          <!--     <li>Donec id elit non mi porta gravida at eget metus.</li> -->
+          <!--     <li>Nulla vitae elit libero, a pharetra augue.</li> -->
+          <!--   </ul> -->
+          <!--   <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p> -->
+          <!--   <ol> -->
+          <!--     <li>Vestibulum id ligula porta felis euismod semper.</li> -->
+          <!--     <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li> -->
+          <!--     <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li> -->
+          <!--   </ol> -->
+          <!--   <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p> -->
+          <!-- </div><\!-- /.blog-post -\-> -->
+
+        </div>
+
+      </div><!-- /.row -->
+
+      
+        
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- <script src="../../assets/js/docs.min.js"></script> -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    -->
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>
+

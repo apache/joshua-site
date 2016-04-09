@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Joshua Documentation | Building Translation Models</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/joshua6.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <!-- <a class="blog-nav-item active" href="#">Joshua</a> -->
+          <a class="blog-nav-item" href="/">Joshua</a>
+          <!-- <a class="blog-nav-item" href="/6.0/whats-new.html">New features</a> -->
+          <a class="blog-nav-item" href="/language-packs/">Language packs</a>
+          <a class="blog-nav-item" href="/data/">Datasets</a>
+          <a class="blog-nav-item" href="/support/">Support</a>
+          <a class="blog-nav-item" href="/contributors.html">Contributors</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+
+        <div class="col-sm-2">
+          <div class="sidebar-module">
+            <!-- <h4>About</h4> -->
+            <center>
+            <img src="/images/joshua-logo-small.png" />
+            <p>Joshua machine translation toolkit</p>
+            </center>
+          </div>
+          <hr>
+          <center>
+            <a href="/releases/current/" target="_blank"><button class="button">Download Joshua 6.0.5</button></a>
+            <br />
+            <a href="/releases/runtime/" target="_blank"><button class="button">Runtime only version</button></a>
+            <p>Released November 5, 2015</p>
+          </center>
+          <hr>
+          <!-- <div class="sidebar-module"> -->
+          <!--   <span id="download"> -->
+          <!--     <a href="http://joshua-decoder.org/downloads/joshua-6.0.tgz">Download</a> -->
+          <!--   </span> -->
+          <!-- </div> -->
+          <div class="sidebar-module">
+            <h4>Using Joshua</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/install.html">Installation</a></li>
+              <li><a href="/6.0/quick-start.html">Quick Start</a></li>
+            </ol>
+          </div>
+          <hr>
+          <div class="sidebar-module">
+            <h4>Building new models</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/pipeline.html">Pipeline</a></li>
+              <li><a href="/6.0/tutorial.html">Tutorial</a></li>
+              <li><a href="/6.0/faq.html">FAQ</a></li>
+            </ol>
+          </div>
+<!--
+          <div class="sidebar-module">
+            <h4>Phrase-based</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/phrase.html">Training</a></li>
+            </ol>
+          </div>
+-->
+          <hr>
+          <div class="sidebar-module">
+            <h4>Advanced</h4>
+            <ol class="list-unstyled">
+              <li><a href="/6.0/bundle.html">Building language packs</a></li>
+              <li><a href="/6.0/decoder.html">Decoder options</a></li>
+              <li><a href="/6.0/file-formats.html">File formats</a></li>
+              <li><a href="/6.0/packing.html">Packing TMs</a></li>
+              <li><a href="/6.0/large-lms.html">Building large LMs</a></li>
+            </ol>
+          </div>
+
+          <hr> 
+          <div class="sidebar-module">
+            <h4>Developer</h4>
+            <ol class="list-unstyled">              
+		<li><a href="https://github.com/joshua-decoder/joshua">Github</a></li>
+		<li><a href="http://cs.jhu.edu/~post/joshua-docs">Javadoc</a></li>
+		<li><a href="https://groups.google.com/forum/?fromgroups#!forum/joshua_developers">Mailing list</a></li>              
+            </ol>
+          </div>
+
+        </div><!-- /.blog-sidebar -->
+
+        
+        <div class="col-sm-8 blog-main">
+        
+
+          <div class="blog-title">
+            <h2>Building Translation Models</h2>
+          </div>
+          
+          <div class="blog-post">
+
+            <h1 id="build-a-translation-model">Build a translation model</h1>
+
+<p>Extracting a grammar from a large amount of data is a multi-step process. The first requirement is parallel data. The Europarl, Call Home, and Fisher corpora all contain parallel translations of Spanish and English sentences.</p>
+
+<p>We will copy (or symlink) the parallel source text files in a subdirectory called <code class="highlighter-rouge">input/</code>.</p>
+
+<p>Then, we concatenate all the training files on each side. The pipeline script normally does tokenization and normalization, but in this instance we have a custom tokenizer we need to apply to the source side, so we have to do it manually and then skip that step using the <code class="highlighter-rouge">pipeline.pl</code> option <code class="highlighter-rouge">--first-step alignment</code>.</p>
+
+<ul>
+  <li>
+    <p>to tokenize the English data, do</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>cat callhome.en europarl.en fisher.en &gt; all.en</td>
+          <td>$JOSHUA/scripts/training/normalize-punctuation.pl en</td>
+          <td>$JOSHUA/scripts/training/penn-treebank-tokenizer.perl</td>
+          <td>$JOSHUA/scripts/lowercase.perl &gt; all.norm.tok.lc.en</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<p>The same can be done for the Spanish side of the input data:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cat callhome.es europarl.es fisher.es &gt; all.es | $JOSHUA/scripts/training/normalize-punctuation.pl es | $JOSHUA/scripts/training/penn-treebank-tokenizer.perl | $JOSHUA/scripts/lowercase.perl &gt; all.norm.tok.lc.es
+</code></pre>
+</div>
+
+<p>By the way, an alternative tokenizer is a Twitter tokenizer found in the <a href="http://github.com/vandurme/jerboa">Jerboa</a> project.</p>
+
+<p>The final step in the training data preparation is to remove all examples in which either of the language sides is a blank line.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>paste all.norm.tok.lc.es all.norm.tok.lc.en | grep -Pv "^\t|\t$" \
+  | ./splittabs.pl all.norm.tok.lc.noblanks.es all.norm.tok.lc.noblanks.en
+</code></pre>
+</div>
+
+<p>contents of <code class="highlighter-rouge">splittabls.pl</code> by Matt Post:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">#!/usr/bin/perl</span>
+
+<span class="c1"># splits on tab, printing respective chunks to the list of files given</span>
+<span class="c1"># as script arguments</span>
+
+<span class="k">use</span> <span class="nv">FileHandle</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">@fh</span><span class="p">;</span>
+<span class="vg">$|</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>   <span class="c1"># don't buffer output</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">@ARGV</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">print</span> <span class="s">"Usage: splittabs.pl &lt; tabbed-file\n"</span><span class="p">;</span>
+  <span class="nb">exit</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">my</span> <span class="nv">@fh</span> <span class="o">=</span> <span class="nb">map</span> <span class="p">{</span> <span class="nv">get_filehandle</span><span class="p">(</span><span class="nv">$_</span><span class="p">)</span> <span class="p">}</span> <span class="nv">@ARGV</span><span class="p">;</span>
+<span class="nv">@ARGV</span> <span class="o">=</span> <span class="p">();</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="k">my</span> <span class="nv">$line</span> <span class="o">=</span> <span class="o">&lt;&gt;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nb">chomp</span><span class="p">(</span><span class="nv">$line</span><span class="p">);</span>
+  <span class="k">my</span> <span class="p">(</span><span class="nv">@fields</span><span class="p">)</span> <span class="o">=</span> <span class="nb">split</span><span class="p">(</span><span class="sr">/\t/</span><span class="p">,</span><span class="nv">$line</span><span class="p">,</span><span class="nb">scalar</span> <span class="nv">@fh</span><span class="p">);</span>
+
+  <span class="nb">map</span> <span class="p">{</span> <span class="k">print</span> <span class="p">{</span><span class="nv">$fh</span><span class="p">[</span><span class="nv">$_</span><span class="p">]}</span> <span class="s">"$fields[$_]\n"</span> <span class="p">}</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="nv">$#fields</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">sub </span><span class="nf">get_filehandle</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$file</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$file</span> <span class="ow">eq</span> <span class="s">"-"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">*</span><span class="bp">STDOUT</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nb">local</span> <span class="o">*</span><span class="nv">FH</span><span class="p">;</span>
+        <span class="nb">open</span> <span class="nv">FH</span><span class="p">,</span> <span class="s">"&gt;$file"</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">"can't open '$file' for writing"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">*</span><span class="nv">FH</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now we can run the pipeline to extract the grammar. Run the following script:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c"># this creates a grammar</span>
+
+<span class="c"># NEED:</span>
+<span class="c"># pair</span>
+<span class="c"># type</span>
+
+<span class="nb">set</span> -u
+
+<span class="nv">pair</span><span class="o">=</span>es-en
+<span class="nb">type</span><span class="o">=</span>hiero
+
+<span class="c">#. ~/.bashrc</span>
+
+<span class="c">#basedir=$(pwd)</span>
+
+<span class="nv">dir</span><span class="o">=</span>grammar-<span class="nv">$pair</span>-<span class="nv">$type</span>
+
+<span class="o">[[</span> ! -d <span class="nv">$dir</span> <span class="o">]]</span> <span class="o">&amp;&amp;</span> mkdir -p <span class="nv">$dir</span>
+<span class="nb">cd</span> <span class="nv">$dir</span>
+
+<span class="nb">source</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$pair</span> | cut -d- -f 1<span class="k">)</span>
+<span class="nv">target</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$pair</span> | cut -d- -f 2<span class="k">)</span>
+
+<span class="nv">$JOSHUA</span>/scripts/training/pipeline.pl <span class="se">\</span>
+  --source <span class="nv">$source</span> <span class="se">\</span>
+  --target <span class="nv">$target</span> <span class="se">\</span>
+  --corpus /home/hltcoe/lorland/expts/scale12/model1/input/all.norm.tok.lc.noblanks <span class="se">\</span>
+  --type <span class="nv">$type</span> <span class="se">\</span>
+  --joshua-mem 100g <span class="se">\</span>
+  --no-prepare <span class="se">\</span>
+  --first-step align <span class="se">\</span>
+  --last-step thrax <span class="se">\</span>
+  --hadoop <span class="nv">$HADOOP</span> <span class="se">\</span>
+  --threads 8 <span class="se">\</span>
+</code></pre>
+</div>
+
+
+          <!--   <h4 class="blog-post-title">Welcome to Joshua!</h4> -->
+
+          <!--   <p>This blog post shows a few different types of content that's supported and styled with Bootstrap. Basic typography, images, and code are all supported.</p> -->
+          <!--   <hr> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis <a href="#">dis parturient montes</a>, nascetur ridiculus mus. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Sed posuere consectetur est at lobortis. Cras mattis consectetur purus sit amet fermentum.</p> -->
+          <!--   <blockquote> -->
+          <!--     <p>Curabitur blandit tempus porttitor. <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> -->
+          <!--   </blockquote> -->
+          <!--   <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p> -->
+          <!--   <h2>Heading</h2> -->
+          <!--   <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p> -->
+          <!--   <h3>Sub-heading</h3> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> -->
+          <!--   <pre><code>Example code block</code></pre> -->
+          <!--   <p>Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p> -->
+          <!--   <h3>Sub-heading</h3> -->
+          <!--   <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p> -->
+          <!--   <ul> -->
+          <!--     <li>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</li> -->
+          <!--     <li>Donec id elit non mi porta gravida at eget metus.</li> -->
+          <!--     <li>Nulla vitae elit libero, a pharetra augue.</li> -->
+          <!--   </ul> -->
+          <!--   <p>Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.</p> -->
+          <!--   <ol> -->
+          <!--     <li>Vestibulum id ligula porta felis euismod semper.</li> -->
+          <!--     <li>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</li> -->
+          <!--     <li>Maecenas sed diam eget risus varius blandit sit amet non magna.</li> -->
+          <!--   </ol> -->
+          <!--   <p>Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.</p> -->
+          <!-- </div><\!-- /.blog-post -\-> -->
+
+        </div>
+
+      </div><!-- /.row -->
+
+      
+        
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- <script src="../../assets/js/docs.min.js"></script> -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    -->
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+  </body>
+</html>
+

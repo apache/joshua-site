@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Z-MERT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Z-MERT</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <p>This document describes how to manually run the ZMERT module.  ZMERT is Joshua’s minimum error-rate
+training module, written by Omar F. Zaidan.  It is easily adapted to drop in different decoders, and
+was also written so as to work with different objective functions (other than BLEU).</p>
+
+<p>((Section (1) in <code class="highlighter-rouge">$JOSHUA/examples/ZMERT/README_ZMERT.txt</code> is an expanded version of this section))</p>
+
+<p>Z-MERT, can be used by launching the driver program (<code class="highlighter-rouge">ZMERT.java</code>), which expects a config file as
+its main argument.  This config file can be used to specify any subset of Z-MERT’s 20-some
+parameters.  For a full list of those parameters, and their default values, run ZMERT with a single
+-h argument as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>java -cp $JOSHUA/bin joshua.zmert.ZMERT -h
+</code></pre>
+</div>
+
+<p>So what does a Z-MERT config file look like?</p>
+
+<p>Examine the file <code class="highlighter-rouge">examples/ZMERT/ZMERT_config_ex2.txt</code>.  You will find that it
+specifies the following “main” MERT parameters:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>(*) -dir dirPrefix:         working directory
+(*) -s sourceFile:          source sentences (foreign sentences) of the MERT dataset
+(*) -r refFile:             target sentences (reference translations) of the MERT dataset
+(*) -rps refsPerSen:        number of reference translations per sentence
+(*) -p paramsFile:          file containing parameter names, initial values, and ranges
+(*) -maxIt maxMERTIts:      maximum number of MERT iterations
+(*) -ipi initsPerIt:        number of intermediate initial points per iteration
+(*) -cmd commandFile:       name of file containing commands to run the decoder
+(*) -decOut decoderOutFile: name of the output file produced by the decoder
+(*) -dcfg decConfigFile:    name of decoder config file
+(*) -N N:                   size of N-best list (per sentence) generated in each MERT iteration
+(*) -v verbosity:           output verbosity level (0-2; higher value =&gt; more verbose)
+(*) -seed seed:             seed used to initialize the random number generator
+</code></pre>
+</div>
+
+<p>(Note that the <code class="highlighter-rouge">-s</code> parameter is only used if Z-MERT is running Joshua as an
+ internal decoder.  If Joshua is run as an external decoder, as is the case in
+ this README, then this parameter is ignored.)</p>
+
+<p>To test Z-MERT on the 100-sentence test set of example2, provide this config
+file to Z-MERT as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>java -cp bin joshua.zmert.ZMERT -maxMem 500 examples/ZMERT/ZMERT_config_ex2.txt &gt; examples/ZMERT/ZMERT_example/ZMERT.out
+</code></pre>
+</div>
+
+<p>This will run Z-MERT for a couple of iterations on the data from the example2
+folder.  (Notice that we have made copies of the source and reference files
+from example2 and renamed them as src.txt and ref.* in the MERT_example folder,
+just to have all the files needed by Z-MERT in one place.)  Once the Z-MERT run
+is complete, you should be able to inspect the log file to see what kinds of
+things it did.  If everything goes well, the run should take a few minutes, of
+which more than 95% is time spent by Z-MERT waiting on Joshua to finish
+decoding the sentences (once per iteration).</p>
+
+<p>The output file you get should be equivalent to <code class="highlighter-rouge">ZMERT.out.verbosity1</code>.  If you
+rerun the experiment with the verbosity (-v) argument set to 2 instead of 1,
+the output file you get should be equivalent to <code class="highlighter-rouge">ZMERT.out.verbosity2</code>, which has
+more interesting details about what Z-MERT does.</p>
+
+<p>Notice the additional <code class="highlighter-rouge">-maxMem</code> argument.  It tells Z-MERT that it should not
+persist to use up memory while the decoder is running (during which time Z-MERT
+would be idle).  The 500 tells Z-MERT that it can only use a maximum of 500 MB.
+For more details on this issue, see section (4) in Z-MERT’s README.</p>
+
+<p>A quick note about Z-MERT’s interaction with the decoder.  If you examine the
+file <code class="highlighter-rouge">decoder_command_ex2.txt</code>, which is provided as the commandFile (<code class="highlighter-rouge">-cmd</code>)
+argument in Z-MERT’s config file, you’ll find it contains the command one would
+use to run the decoder.  Z-MERT launches the commandFile as an external
+process, and assumes that it will launch the decoder to produce translations.
+(Make sure that commandFile is executable.)  After launching this external
+process, Z-MERT waits for it to finish, then uses the resulting output file for
+parameter tuning (in addition to the output files from previous iterations).
+The command file here only has a single command, but your command file could
+have multiple lines.  Just make sure the command file itself is executable.</p>
+
+<p>Notice that the Z-MERT arguments <code class="highlighter-rouge">configFile</code> and <code class="highlighter-rouge">decoderOutFile</code> (<code class="highlighter-rouge">-cfg</code> and
+<code class="highlighter-rouge">-decOut</code>) must match the two Joshua arguments in the commandFile’s (<code class="highlighter-rouge">-cmd</code>) single
+command.  Also, the Z-MERT argument for N must match the value for <code class="highlighter-rouge">top_n</code> in
+Joshua’s config file, indicated by the Z-MERT argument configFile (<code class="highlighter-rouge">-cfg</code>).</p>
+
+<p>For more details on Z-MERT, refer to <code class="highlighter-rouge">$JOSHUA/examples/ZMERT/README_ZMERT.txt</code></p>
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>

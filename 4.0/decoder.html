@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="screen,print" href="../joshua4.css" />
+    <title>Joshua | Decoder configuration parameters</title>
+  </head>
+
+  <body>
+
+    <div id="navbar">
+      <a href="http://joshua-decoder.org/">
+        <img src="../images/joshua-logo-small.png" width="130px" 
+             alt="Joshua logo (picture of a Joshua tree)" />
+      </a>
+
+      <p class="infobox">
+        <b>Stable version</b><br />
+        4.1<br/><br/>
+        <b>Release date</b><br />
+        2013 January
+      </p>
+
+<!--       <div class="infobox"> -->
+<!--         <b>AUTO LINKS</b><br/> -->
+<!--         <ul> -->
+<!--            -->
+<!--           <li> Advanced features</li> -->
+<!--            -->
+<!--           <li> Advanced features</li> -->
+<!--            -->
+<!--           <li> Advanced features</li> -->
+<!--            -->
+<!--           <li> Building a language pack</li> -->
+<!--            -->
+<!--           <li> Building a language pack</li> -->
+<!--            -->
+<!--           <li> Bundling a configuration</li> -->
+<!--            -->
+<!--           <li> Contributors</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Frequently Asked Questions</li> -->
+<!--            -->
+<!--           <li> Common problems</li> -->
+<!--            -->
+<!--           <li> Frequently Asked Questions</li> -->
+<!--            -->
+<!--           <li> Common problems</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> Fisher and CALLHOME Spanish English Speech Translation Corpus</li> -->
+<!--            -->
+<!--           <li> Indian Languages Parallel Corpora</li> -->
+<!--            -->
+<!--           <li> Joshua 4.0 User Documentation</li> -->
+<!--            -->
+<!--           <li> Language packs</li> -->
+<!--            -->
+<!--           <li> Paraphrase Packs</li> -->
+<!--            -->
+<!--           <li> Joshua releases</li> -->
+<!--            -->
+<!--           <li> Support</li> -->
+<!--            -->
+<!--           <li> Getting Started</li> -->
+<!--            -->
+<!--           <li> Welcome to Joshua</li> -->
+<!--            -->
+<!--           <li> Joshua documentation</li> -->
+<!--            -->
+<!--           <li> Joshua documentation</li> -->
+<!--            -->
+<!--           <li> Installation</li> -->
+<!--            -->
+<!--           <li> Installation</li> -->
+<!--            -->
+<!--           <li> Alignment with Jacana</li> -->
+<!--            -->
+<!--           <li> Alignment with Jacana</li> -->
+<!--            -->
+<!--           <li> Alignment with Jacana</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Lattice decoding</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> Quick Start</li> -->
+<!--            -->
+<!--           <li> Quick Start</li> -->
+<!--            -->
+<!--           <li> Releases</li> -->
+<!--            -->
+<!--           <li> Server mode</li> -->
+<!--            -->
+<!--           <li> Server mode</li> -->
+<!--            -->
+<!--           <li> Server mode</li> -->
+<!--            -->
+<!--           <li> Installing and running the Joshua Decoder</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Pipeline tutorial</li> -->
+<!--            -->
+<!--           <li> Pipeline tutorial</li> -->
+<!--            -->
+<!--           <li> Pipeline tutorial</li> -->
+<!--            -->
+<!--           <li> What's New</li> -->
+<!--            -->
+<!--           <li> What's New</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--         </ul> -->
+<!--       </div>   -->
+
+      <div class="infobox">
+
+        <b>Links</b><br />
+        <ul>
+          <li> <a href="../index.html">Main</a> </li>
+          <li> <a href="pipeline.html">Pipeline</a> </li>
+          <li> <a href="step-by-step-instructions.html">Manual walkthrough</a> </li>
+          <li> <a href="decoder.html">Decoder</a> </li>
+          <li> <a href="server.html">Decoder Server</a> </li>
+          <li> <a href="file-formats.html">File formats</a> </li>
+          <li> <a href="thrax.html">Grammar Extraction</a> </li>
+          <li> <a href="../releases.html">Releases</a> </li>
+        </ul>
+      </div>
+
+      <div class="infobox">
+        <b>Advanced</b><br />
+        <ul>
+<!--          <li> <a href="packing.html">Grammar packing</a> </li> -->
+          <li> <a href="large-lms.html">Building large LMs</a> </li>
+          <li> <a href="zmert.html">Running Z-MERT</a> </li>
+          <li> <a href="lattice.html">Lattices</a> </li>
+          <li> <a href="server.html">TCP/IP server</a> </li>
+          <li> <a href="bundle.html">Bundled configuration</a> </li>
+        </ul>
+      </div>
+
+      <div class="infobox">
+        <b>Help</b><br />
+        <ul>
+          <li> <a href="faq.html">Answers</a> </li>
+          <li> <a href="https://groups.google.com/d/forum/joshua_support">Archive</a> </li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        Last updated on April 08, 2016
+      </div>
+
+    </div>
+
+    <div id="main">
+      <div id="title">
+        <h1>Decoder configuration parameters</h1>
+      </div>
+
+      <div id="content">
+        
+        <p>Joshua configuration parameters affect the runtime behavior of the decoder itself.  This page
+describes the complete list of these parameters and describes how to invoke the decoder manually.</p>
+
+<p>To run the decoder, a convenience script is provided that loads the necessary Java libraries.
+Assuming you have set the environment variable <code class="highlighter-rouge">$JOSHUA</code> to point to the root of your installation,
+its syntax is:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/joshua-decoder [-m memory-amount] [-c config-file other-joshua-options ...]
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">-m</code> argument, if present, must come first, and the memory specification is in Java format
+(e.g., 400m, 4g, 50g).  Most notably, the suffixes “m” and “g” are used for “megabytes” and
+“gigabytes”, and there cannot be a space between the number and the unit.  The value of this
+argument is passed to Java itself in the invocation of the decoder, and the remaining options are
+passed to Joshua.  The <code class="highlighter-rouge">-c</code> parameter has special import because it specifies the location of the
+configuration file.</p>
+
+<p>The Joshua decoder works by reading from STDIN and printing translations to STDOUT as they are
+received, according to a number of <a href="#output">output options</a>.  If no run-time parameters are
+specified (e.g., no translation model), sentences are simply pushed through untranslated.  Blank
+lines are similarly pushed through as blank lines, so as to maintain parallelism with the input.</p>
+
+<p>Parameters can be provided to Joshua via a configuration file and from the command
+line.  Command-line arguments override values found in the configuration file.  The format for
+configuration file parameters is</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>parameter = value
+</code></pre>
+</div>
+
+<p>Command-line options are specified in the following format</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-parameter value
+</code></pre>
+</div>
+
+<p>Values are one of four types (which we list here mostly to call attention to the boolean format):</p>
+
+<ul>
+  <li>STRING, an arbitrary string (no spaces)</li>
+  <li>FLOAT, a floating-point value</li>
+  <li>INT, an integer</li>
+  <li>
+    <p>BOOLEAN, a boolean value.  For booleans, <code class="highlighter-rouge">true</code> evaluates to true, and all other values evaluate
+to false.  For command-line options, the value may be omitted, in which case it evaluates to
+true.  For example, the following are equivalent:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/joshua-decoder -show-align-index true
+$JOSHUA/joshua-decoder -show-align-index
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="joshua-configuration-file">Joshua configuration file</h2>
+
+<p>Before describing the list of Joshua parameters, we present a note about the configuration file.
+In addition to the decoder parameters described below, the configuration file contains the feature
+weight values for the model.  The weight values are distinguished from runtime parameters in two
+ways: (1) they cannot be overridden on the command line, and (2) they do not have an equals sign
+(=).  Parameters are described in further detail in the <a href="features.html">feature file</a>.  They take
+the following format, and by convention are placed at the end of the configuration file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lm 0 4.23
+phrasement pt 0 -0.2
+oovpenalty -100
+</code></pre>
+</div>
+
+<h2 id="joshua-decoder-parameters">Joshua decoder parameters</h2>
+
+<p>This section contains a list of the Joshua run-time parameters.  An important note about the
+parameters is that they are collapsed to canonical form, in which dashes (-) and underscores (-) are
+removed and case is converted to lowercase.  For example, the following parameter forms are
+equivalent (either in the configuration file or from the command line):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">top-n,</span><span class="w"> </span><span class="err">topN,</span><span class="w"> </span><span class="err">top_n,</span><span class="w"> </span><span class="err">TOP_N,</span><span class="w"> </span><span class="err">t-o-p-N</span><span class="p">}</span><span class="w">
+</span><span class="p">{</span><span class="err">poplimit,</span><span class="w"> </span><span class="err">pop-limit,</span><span class="w"> </span><span class="err">pop-limit,</span><span class="w"> </span><span class="err">popLimit</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>This basically defines equivalence classes of parameters, and relieves you of the task of having to
+remember the exact format of each parameter.</p>
+
+<p>In what follows, we group the configuration parameters in the following groups:</p>
+
+<ul>
+  <li><a href="#modes">Alternate modes of operation</a></li>
+  <li><a href="#general">General options</a></li>
+  <li><a href="#pruning">Pruning</a></li>
+  <li><a href="#tm">Translation model options</a></li>
+  <li><a href="#lm">Language model options</a></li>
+  <li><a href="#output">Output options</a></li>
+</ul>
+
+<p><a name="modes"></a></p>
+
+<h3 id="alternate-modes-of-operation">Alternate modes of operation</h3>
+
+<p>In addition to decoding (which is the default mode), Joshua can also produce synchronous parses of a
+(source,target) pair of sentences.  This mode disables the language model (since no generation is
+required) but still requires a translation model.  To enable it, you must do two things:</p>
+
+<ol>
+  <li>Set the configuration parameters <code class="highlighter-rouge">parse = true</code>.</li>
+  <li>
+    <p>Provide input in the following format:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>source sentence ||| target sentence
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<p>You may also wish to display the synchronouse parse tree (<code class="highlighter-rouge">-use-tree-nbest</code>) and the alignment
+(<code class="highlighter-rouge">-show-align-index</code>).</p>
+
+<p>The synchronous parsing implementation is that of Dyer (2010)
+<a href="http://www.aclweb.org/anthology/N/N10/N10-1033">PDF</a>.</p>
+
+<p>If parsing is enabled, the following features become relevant.  If you would like more information
+about how to use these features, please ask <a href="http://cs.jhu.edu/~jonny/">Jonny Weese</a> to document
+them. </p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">forest-pruning</code> — <em>false</em></p>
+
+    <p>If true, the synchronous forest will be pruned.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">forest-pruning-threshold</code> — <em>10</em></p>
+
+    <p>The threshold used for pruning.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">use-kbest-hg</code> — <em>false</em></p>
+
+    <p>The k-best hypergraph to use.</p>
+  </li>
+</ul>
+
+<p><a name="general"></a></p>
+
+<h3 id="general-decoder-options">General decoder options</h3>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">c</code>, <code class="highlighter-rouge">config</code> — <em>NULL</em></p>
+
+    <p>Specifies the configuration file from which Joshua options are loaded.  This feature is unique in
+ that it must be specified from the command line.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">oracle-file</code> — <em>NULL</em></p>
+
+    <p>The location of a set of oracle reference translations, parallel to the input.  When present,
+after producing the hypergraph by decoding the input sentence, the oracle is used to rescore the
+translation forest with a BLEU approximation in order to extract the oracle-translation from the
+forest.  This is useful for obtaining an (approximation to an) upper bound on your translation
+model under particular search settings.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">default-nonterminal</code> — <em>“X”</em></p>
+
+    <p>This is the nonterminal symbol assigned to out-of-vocabulary (OOV) items.  </p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">goal-symbol</code> — <em>“GOAL”</em></p>
+
+    <p>This is the symbol whose presence in the chart over the whole input span denotes a successful
+ parse (translation).  It should match the LHS nonterminal in your glue grammar.  Internally,
+ Joshua represents nonterminals enclosed in square brackets (e.g., “[GOAL]”), which you can
+ optionally supply in the configuration file.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">true-oovs-only</code> — <em>false</em></p>
+
+    <p>By default, Joshua creates an OOV entry for every word in the source sentence, regardless of
+whether it is found in the grammar.  This allows every word to be pushed through untranslated
+(although potentially incurring a high cost based on the <code class="highlighter-rouge">oovPenalty</code> feature).  If this option is
+set, then only true OOVs are entered into the chart as OOVs.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">use-sent-specific-tm</code> — <em>false</em></p>
+
+    <p>If set to true, Joshua will look for sentence-specific filtered grammars.  The location is
+determined by taking the supplied translation model (<code class="highlighter-rouge">tm-file</code>) and looking for a <code class="highlighter-rouge">filtered/</code>
+subdirectory for a file with the same name but with the (0-indexed) sentence number appended to
+it.  For example, if </p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>tm-file = /path/to/grammar.gz
+</code></pre>
+    </div>
+
+    <p>then the sentence-filtered grammars should be found at</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>/path/to/filtered/grammar.0.gz
+/path/to/filtered/grammar.1.gz
+/path/to/filtered/grammar.2.gz      
+...
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">threads</code>, <code class="highlighter-rouge">num-parallel-decoders</code> — <em>1</em></p>
+
+    <p>This determines how many simultaneous decoding threads to launch.  </p>
+
+    <p>Outputs are assembled in order and Joshua has to hold on to the complete target hypergraph until
+it is ready to be processed for output, so too many simultaneous threads could result in lots of
+memory usage if a long sentence results in many sentences being queued up.  We have run Joshua
+with as many as 48 threads without any problems of this kind, but it’s useful to keep in the back
+of your mind.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">oov-feature-cost</code> — <em>100</em></p>
+
+    <p>Each OOV word incurs this cost, which is multiplied against the <code class="highlighter-rouge">oovPenalty</code> feature (which is
+tuned but can be held fixed).</p>
+  </li>
+  <li><code class="highlighter-rouge">use-google-linear-corpus-gain</code></li>
+  <li><code class="highlighter-rouge">google-bleu-weights</code></li>
+</ul>
+
+<p><a name="pruning"></a></p>
+
+<h3 id="pruning-options">Pruning options</h3>
+
+<p>There are three different approaches to pruning in Joshua.</p>
+
+<ol>
+  <li>
+    <p>No pruning.  Exhaustive decoding is triggered by setting <code class="highlighter-rouge">pop-limit = 0</code> and
+<code class="highlighter-rouge">use-beam-and-threshold-prune = false</code>.</p>
+  </li>
+  <li>
+    <p>The old approach.  This approach uses a handful of pruning parameters whose specific roles are
+hard to understand and whose interaction is even more difficult to quantify.  It is triggered by
+setting <code class="highlighter-rouge">pop-limit = 0</code> and <code class="highlighter-rouge">use-beam-and-threshold-prune = true</code>.</p>
+  </li>
+  <li>
+    <p>Pop-limit pruning (the new approach).  The pop limit determines the number of hypotheses that are
+  popped from the candidates list for each of the O(n^2) spans of the input.  A nice feature of this
+  approach is that it provides a single value to control the size of the search space that is
+  explored (and therefore runtime).</p>
+  </li>
+</ol>
+
+<p>Selecting among these pruning methods could be made easier via a single parameter with enumerated
+values, but currently, we are stuck with this slightly more cumbersome way.  The defaults ensure
+that you don’t have to worry about them too much.  Pop-limit pruning is enabled by default, and it
+is the recommended approach; if you want to control the speed / accuracy tradeoff, you should change
+the pop limit.</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">pop-limit</code> — <em>100</em></p>
+
+    <p>The number of hypotheses to examine for each span of the input.  Higher values result in a larger
+portion of the search space being explored at the cost of an increased search time.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">use-beam-and-threshold-pruning</code> — <em>false</em></p>
+
+    <p>Enables the use of beam-and-threshold pruning, and makes the following five features relevant.</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">fuzz1</code> — <em>0.1</em></li>
+      <li><code class="highlighter-rouge">fuzz2</code> — <em>0.2</em></li>
+      <li><code class="highlighter-rouge">max-n-items</code> — <em>30</em></li>
+      <li><code class="highlighter-rouge">relative-threshold</code> — <em>10.0</em></li>
+      <li><code class="highlighter-rouge">max-n-rules</code> — <em>50</em></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">constrain-parse</code> — <em>false</em></li>
+  <li><code class="highlighter-rouge">use_pos_labels</code> — <em>false</em></li>
+</ul>
+
+<p><a name="tm"></a></p>
+
+<h3 id="translation-model-options">Translation model options</h3>
+
+<p>At the moment, Joshua supports only two translation models, which are designated as the (main)
+translation model and the glue grammar.  Internally, these grammars are distinguished only in that
+the <code class="highlighter-rouge">span-limit</code> parameter applies only to the glue grammar.  In the near future we plan to
+generalize the grammar specification to permit an unlimited number of translation models.</p>
+
+<p>The main translation grammar is specified with the following set of parameters:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">tm_file STRING</code> — <em>NULL</em>, <code class="highlighter-rouge">glue_file STRING</code> — <em>NULL</em></p>
+
+    <p>This points to the file location of the translation grammar for text-based formats or to the
+directory for the <a href="packing.html">packed representation</a>.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">tm_format STRING</code> — <em>thrax</em>, <code class="highlighter-rouge">glue_format STRING</code> — <em>thrax</em></p>
+
+    <p>The format the file is in.  The permissible formats are <code class="highlighter-rouge">hiero</code> or <code class="highlighter-rouge">thrax</code> (which are equivalent),
+<code class="highlighter-rouge">packed</code> (for <a href="packing.html">packed grammars</a>), or <code class="highlighter-rouge">samt</code> (for grammars encoded in the format
+defined by <a href="http://www.cs.cmu.edu/~zollmann/samt/">Zollmann &amp; Venugopal</a>.  This parameter will be
+done away with in the near future since it is easily inferrable.  See
+<a href="file-formats.html">the formats page</a> for more information about file formats.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">phrase_owner STRING</code> — <em>pt</em>, <code class="highlighter-rouge">glue-owner STRING</code> — <em>pt</em></p>
+
+    <p>The ownership concept is used to distinguish the set of feature weights that apply to each
+grammar.  See the <a href="features.html">page on features</a> for more information.  By default, these
+parameters have the same value, meaning the grammars share a set of features.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">span-limit</code> — <em>10</em></p>
+
+    <p>This controls the maximum span of the input that grammar rules loaded from <code class="highlighter-rouge">tm-file</code> are allowed
+to apply.  The span limit is ignored for glue grammars.</p>
+  </li>
+</ul>
+
+<p><a name="lm"></a></p>
+
+<h3 id="language-model-options">Language model options</h3>
+
+<p>Joshua supports the incorporation of an arbitrary number of language models.  To add a language
+model, add a line of the following format to the configuration file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lm = lm-type order 0 0 lm-ceiling-cost lm-file
+</code></pre>
+</div>
+
+<p>where the six fields correspond to the following values:</p>
+
+<ul>
+  <li><em>lm-type</em>: one of “kenlm”, “berkeleylm”, “javalm” (not recommended), or “none”</li>
+  <li><em>order</em>: the N of the N-gram language model</li>
+  <li><em>0</em>: whether to use left equivalent state (currently not supported)</li>
+  <li><em>0</em>: whether to use right equivalent state (currently not supported)</li>
+  <li><em>lm-ceiling-cost</em>: the LM-specific ceiling cost of any n-gram (currently ignored;
+ <code class="highlighter-rouge">lm-ceiling-cost</code> applies to all language models)</li>
+  <li><em>lm-file</em>: the path to the language model file.  All types support the standard ARPA format.
+ Additionally, if the LM type is “kenlm”, this file can be compiled into KenLM’s compiled format
+ (using the program at <code class="highlighter-rouge">$JOSHUA/src/joshua/decoder/ff/lm/kenlm/build_binary</code>), and if the LM type
+ is “berkeleylm”, it can be compiled by following the directions in
+ <code class="highlighter-rouge">$JOSHUA/src/joshua/decoder/ff/lm/berkeley_lm/README</code>.</li>
+</ul>
+
+<p>For each language model, you need to specify a feature weight in the following format:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lm 0 WEIGHT
+lm 1 WEIGHT
+...
+</code></pre>
+</div>
+
+<p>where the indices correspond to the language model declaration lines in order.</p>
+
+<p>For backwards compatibility, Joshua also supports a separate means of specifying the language model,
+by separately specifying each of <code class="highlighter-rouge">lm-file</code> (NULL), <code class="highlighter-rouge">lm-type</code> (kenlm), <code class="highlighter-rouge">order</code> (5), and
+<code class="highlighter-rouge">lm-ceiling-cost</code> (100).</p>
+
+<p><a name="output"></a></p>
+
+<h3 id="output-options">Output options</h3>
+
+<p>The output for a given input is a set of one or more lines with the following scheme:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>input ID ||| translation ||| model scores ||| score
+</code></pre>
+</div>
+
+<p>These parameters largely determine what is output by Joshua.</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">top-n</code> — <em>300</em></p>
+
+    <p>The number of translation hypotheses to output, sorted in non-increasing order of model score (i.e.,
+highest first).</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">use-unique-nbest</code> — <em>true</em></p>
+
+    <p>When constructing the n-best list for a sentence, skip hypotheses whose string has already been
+output.  This increases the amount of diversity in the n-best list by removing spurious ambiguity
+in the derivation structures.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">add-combined-cost</code> — <em>true</em></p>
+
+    <p>In addition to outputting the hypothesis number, the translation, and the individual feature
+weights, output the combined model cost.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">use-tree-nbest</code> — <em>false</em> </p>
+
+    <p>Output the synchronous derivation tree in addition to the output string, for each candidate in the
+n-best list.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">escape-trees</code> — <em>false</em></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">include-align-index</code> — <em>false</em></p>
+
+    <p>Output the source words indices that each target word aligns to.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">mark-oovs</code> — <em>false</em></p>
+
+    <p>if <code class="highlighter-rouge">true</code>, this causes the text “_OOV” to be appended to each OOV in the output.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">visualize-hypergraph</code> — <em>false</em></p>
+
+    <p>If set to true, a visualization of the hypergraph will be displayed, though you will have to
+explicitly include the relevant jar files.  See the example usage in
+<code class="highlighter-rouge">$JOSHUA/examples/tree_visualizer/</code>, which contains a demonstration of a source sentence,
+translation, and synchronous derivation.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">save-disk-hg</code> — <em>false</em> [DISABLED]</p>
+
+    <p>This feature directs that the hypergraph should be written to disk.  The code is in</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/src/joshua/src/DecoderThread.java
+</code></pre>
+    </div>
+
+    <p>but the feature has not been tested in some time, and is thus disabled.  It probably wouldn’t take
+much work to fix it!  If you do, you might find the
+<a href="http://aclweb.org/aclwiki/index.php?title=Hypergraph_Format">discussion on a common hypergraph format</a>
+on the ACL Wiki to be useful.</p>
+  </li>
+</ul>
+
+<!--
+
+## Full list of command-line options and arguments
+
+<table border="0">
+  <tr>
+    <th>
+      option
+    </th>
+    <th>
+      value
+    </th>
+    <th>
+      description
+    </th>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-lm</code>
+    </td>
+    <td>
+      String, e.g. <n /> <code>TYPE 5 false false 100 FILE</code>
+    </td>
+    <td markdown="1">
+      Use once for each of one or language models.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-lm_file</code>
+    </td>
+    <td>
+      String: path the the language model file
+    </td>
+    <td>
+      ???
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-parse</code>
+    </td>
+    <td>
+      None
+    </td>
+    <td>
+      whether to parse (if not then decode)
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-tm_file</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+       path to the the translation model
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-glue_file</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      ???
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-tm_format</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-glue_format</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>-lm_type</code>
+    </td>
+    <td>
+      value
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <code>lm_ceiling_cost</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_left_equivalent_state</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_right_equivalent_state</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>order</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_sent_specific_lm</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>span_limit</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>phrase_owner</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>glue_owner</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>default_non_terminal</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>goalSymbol</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>constrain_parse</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>oov_feature_index</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>true_oovs_only</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_pos_labels</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>fuzz1</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>fuzz2</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>max_n_items</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>relative_threshold</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>max_n_rules</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_unique_nbest</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>add_combined_cost</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_tree_nbest</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>escape_trees</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>include_align_index</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>top_n</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>parallel_files_prefix</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>num_parallel_decoders</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>threads</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>save_disk_hg</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>use_kbest_hg</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>forest_pruning</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>forest_pruning_threshold</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>visualize_hypergraph</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>mark_oovs</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>pop-limit</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <code>useCubePrune</code>
+    </td>
+    <td>
+      String
+    </td>
+    <td>
+      description
+    </td>
+  </tr>
+</table>
+-->
+
+
+
+      </div>
+    </div>
+
+  </body>
+</html>
+
+
+
+
+

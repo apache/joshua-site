@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="screen,print" href="../joshua4.css" />
+    <title>Joshua | Lattice decoding</title>
+  </head>
+
+  <body>
+
+    <div id="navbar">
+      <a href="http://joshua-decoder.org/">
+        <img src="../images/joshua-logo-small.png" width="130px" 
+             alt="Joshua logo (picture of a Joshua tree)" />
+      </a>
+
+      <p class="infobox">
+        <b>Stable version</b><br />
+        4.1<br/><br/>
+        <b>Release date</b><br />
+        2013 January
+      </p>
+
+<!--       <div class="infobox"> -->
+<!--         <b>AUTO LINKS</b><br/> -->
+<!--         <ul> -->
+<!--            -->
+<!--           <li> Advanced features</li> -->
+<!--            -->
+<!--           <li> Advanced features</li> -->
+<!--            -->
+<!--           <li> Advanced features</li> -->
+<!--            -->
+<!--           <li> Building a language pack</li> -->
+<!--            -->
+<!--           <li> Building a language pack</li> -->
+<!--            -->
+<!--           <li> Bundling a configuration</li> -->
+<!--            -->
+<!--           <li> Contributors</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Decoder configuration parameters</li> -->
+<!--            -->
+<!--           <li> Frequently Asked Questions</li> -->
+<!--            -->
+<!--           <li> Common problems</li> -->
+<!--            -->
+<!--           <li> Frequently Asked Questions</li> -->
+<!--            -->
+<!--           <li> Common problems</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Features</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> Joshua file formats</li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> Fisher and CALLHOME Spanish English Speech Translation Corpus</li> -->
+<!--            -->
+<!--           <li> Indian Languages Parallel Corpora</li> -->
+<!--            -->
+<!--           <li> Joshua 4.0 User Documentation</li> -->
+<!--            -->
+<!--           <li> Language packs</li> -->
+<!--            -->
+<!--           <li> Paraphrase Packs</li> -->
+<!--            -->
+<!--           <li> Joshua releases</li> -->
+<!--            -->
+<!--           <li> Support</li> -->
+<!--            -->
+<!--           <li> Getting Started</li> -->
+<!--            -->
+<!--           <li> Welcome to Joshua</li> -->
+<!--            -->
+<!--           <li> Joshua documentation</li> -->
+<!--            -->
+<!--           <li> Joshua documentation</li> -->
+<!--            -->
+<!--           <li> Installation</li> -->
+<!--            -->
+<!--           <li> Installation</li> -->
+<!--            -->
+<!--           <li> Alignment with Jacana</li> -->
+<!--            -->
+<!--           <li> Alignment with Jacana</li> -->
+<!--            -->
+<!--           <li> Alignment with Jacana</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Building large LMs with SRILM</li> -->
+<!--            -->
+<!--           <li> Lattice decoding</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> Grammar Packing</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> The Joshua Pipeline</li> -->
+<!--            -->
+<!--           <li> Quick Start</li> -->
+<!--            -->
+<!--           <li> Quick Start</li> -->
+<!--            -->
+<!--           <li> Releases</li> -->
+<!--            -->
+<!--           <li> Server mode</li> -->
+<!--            -->
+<!--           <li> Server mode</li> -->
+<!--            -->
+<!--           <li> Server mode</li> -->
+<!--            -->
+<!--           <li> Installing and running the Joshua Decoder</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Grammar extraction with Thrax</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Building Translation Models</li> -->
+<!--            -->
+<!--           <li> Pipeline tutorial</li> -->
+<!--            -->
+<!--           <li> Pipeline tutorial</li> -->
+<!--            -->
+<!--           <li> Pipeline tutorial</li> -->
+<!--            -->
+<!--           <li> What's New</li> -->
+<!--            -->
+<!--           <li> What's New</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> Z-MERT</li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--           <li> </li> -->
+<!--            -->
+<!--         </ul> -->
+<!--       </div>   -->
+
+      <div class="infobox">
+
+        <b>Links</b><br />
+        <ul>
+          <li> <a href="../index.html">Main</a> </li>
+          <li> <a href="pipeline.html">Pipeline</a> </li>
+          <li> <a href="step-by-step-instructions.html">Manual walkthrough</a> </li>
+          <li> <a href="decoder.html">Decoder</a> </li>
+          <li> <a href="server.html">Decoder Server</a> </li>
+          <li> <a href="file-formats.html">File formats</a> </li>
+          <li> <a href="thrax.html">Grammar Extraction</a> </li>
+          <li> <a href="../releases.html">Releases</a> </li>
+        </ul>
+      </div>
+
+      <div class="infobox">
+        <b>Advanced</b><br />
+        <ul>
+<!--          <li> <a href="packing.html">Grammar packing</a> </li> -->
+          <li> <a href="large-lms.html">Building large LMs</a> </li>
+          <li> <a href="zmert.html">Running Z-MERT</a> </li>
+          <li> <a href="lattice.html">Lattices</a> </li>
+          <li> <a href="server.html">TCP/IP server</a> </li>
+          <li> <a href="bundle.html">Bundled configuration</a> </li>
+        </ul>
+      </div>
+
+      <div class="infobox">
+        <b>Help</b><br />
+        <ul>
+          <li> <a href="faq.html">Answers</a> </li>
+          <li> <a href="https://groups.google.com/d/forum/joshua_support">Archive</a> </li>
+        </ul>
+      </div>
+
+      <div class="footer">
+        Last updated on April 08, 2016
+      </div>
+
+    </div>
+
+    <div id="main">
+      <div id="title">
+        <h1>Lattice decoding</h1>
+      </div>
+
+      <div id="content">
+        
+        <p>In addition to regular sentences, Joshua can decode weighted lattices encoded in <a href="http://www.statmt.org/moses/?n=Moses.WordLattices">the PLF
+format</a>.  Lattice decoding was originally added
+by Lane Schwartz and <a href="http://www.cs.cmu.edu/~cdyer/">Chris Dyer</a>.</p>
+
+<p>Joshua will automatically detect whether the input sentence is a regular sentence
+(the usual case) or a lattice.  If a lattice, a feature will be activated that accumulates the cost
+of different paths through the lattice.  In this case, you need to ensure that a weight for this
+feature is present in <a href="decoder.html">your model file</a>.</p>
+
+<p>The main caveats with Joshua’s PLF lattice support are that the lattice needs to be listed on a
+single line.</p>
+
+
+      </div>
+    </div>
+
+  </body>
+</html>
+
+
+
+
+

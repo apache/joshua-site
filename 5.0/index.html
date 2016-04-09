@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Joshua Documentation | Getting Started</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      #download {
+          background-color: green;
+          font-size: 14pt;
+          font-weight: bold;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          padding: 4px;
+      }
+
+      #download a:link {
+          color: white;
+      }
+
+      #download a:hover {
+          color: lightgrey;
+      }
+
+      #download a:visited {
+          color: white;
+      }
+
+      a.pdf {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: brown;
+          padding: 2px;
+      }
+
+      a.bibtex {
+          font-variant: small-caps;
+          /* font-weight: bold; */
+          font-size: 10pt;
+          color: white;
+          background: orange;
+          padding: 2px;
+      }
+
+      img.sponsor {
+        height: 120px;
+        margin: 5px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Joshua</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Documentation</a></li>
+              <li><a href="pipeline.html">Pipeline</a></li>
+              <li><a href="tutorial.html">Tutorial</a></li>
+              <li><a href="decoder.html">Decoder</a></li>
+              <li><a href="thrax.html">Thrax</a></li>
+              <li><a href="file-formats.html">File formats</a></li>
+              <!-- <li><a href="advanced.html">Advanced</a></li> -->
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="row">
+        <div class="span2">
+          <img src="/images/joshua-logo-small.png" 
+               alt="Joshua logo (picture of a Joshua tree)" />
+        </div>
+        <div class="span10">
+          <h1>Joshua Documentation</h1>
+          <h2>Getting Started</h2>
+          <span id="download">
+            <a href="http://cs.jhu.edu/~post/files/joshua-v5.0.tgz">Download</a>
+          </span>
+          &nbsp; (version 5.0, released 16 August 2013)
+        </div>
+      </div>
+      
+      <hr />
+
+      <div class="row">
+        <div class="span8">
+
+          <p>This page contains end-user oriented documentation for the 5.0 release of
+<a href="http://joshua-decoder.org/">the Joshua decoder</a>.</p>
+
+<h2 id="download-and-setup">Download and Setup</h2>
+
+<ol>
+  <li>
+    <p>Download Joshua by clicking the big green button above, or from the command line:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>wget -q http://cs.jhu.edu/~post/files/joshua-v5.0.tgz
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Next, unpack it, set environment variables, and compile everything:</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>tar xzf joshua-v5.0.tgz
+cd joshua-v5.0
+
+# for bash
+export JAVA_HOME=/path/to/java
+export JOSHUA=$(pwd)
+echo "export JOSHUA=$JOSHUA" &gt;&gt; ~/.bashrc
+
+# for tcsh
+setenv JAVA_HOME /path/to/java
+setenv JOSHUA `pwd`
+echo "setenv JOSHUA $JOSHUA" &gt;&gt; ~/.profile
+   
+ant
+</code></pre>
+    </div>
+
+    <p>(If you don’t know what to set <code class="highlighter-rouge">$JAVA_HOME</code> to, try <code class="highlighter-rouge">/usr/java/default</code>)</p>
+  </li>
+  <li>
+    <p>If you have a Hadoop installation, make sure that the environment variable <code class="highlighter-rouge">$HADOOP</code> is set and
+points to it. If you don’t, Joshua will roll one out for you in standalone mode.</p>
+  </li>
+  <li>
+    <p>If you want to use Cherry &amp; Foster’s
+<a href="http://aclweb.org/anthology-new/N/N12/N12-1047v2.pdf">batch MIRA tuner</a> (recommended), you need to
+<a href="http://www.statmt.org/moses/?n=Development.GetStarted">install Moses</a> and define the <code class="highlighter-rouge">$MOSES</code>
+environment variable to point to the root of the Moses installation.</p>
+  </li>
+</ol>
+
+<h2 id="quick-start">Quick start</h2>
+
+<p>Our <a href="pipeline.html">pipeline script</a> is the quickest way to get started. For example, to
+train and test a complete model translating from Bengali to English:</p>
+
+<p>First, download the Indian languages data:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>wget --no-check -O indian-languages.tgz https://github.com/joshua-decoder/indian-parallel-corpora/tarball/master
+tar xf indian-languages.tgz
+ln -s joshua-decoder-indian-parallel-corpora-b71d31a input
+</code></pre>
+</div>
+
+<p>Then, train and test a model</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$JOSHUA/bin/pipeline.pl --source bn --target en \
+    --no-prepare --aligner berkeley \
+    --corpus input/bn-en/tok/training.bn-en \
+    --tune input/bn-en/tok/dev.bn-en \
+    --test input/bn-en/tok/devtest.bn-en
+</code></pre>
+</div>
+
+<p>This will align the data with the Berkeley aligner, build a Hiero model, tune with MERT, decode the
+test sets, and reports results that should correspond with what you find on <a href="/indian-parallel-corpora/">the Indian Parallel Corpora page</a>. For
+more details, including information on the many options available with the pipeline script, please
+see <a href="pipeline.html">its documentation page</a>.</p>
+
+<h2 id="more-information">More information</h2>
+
+<p>For more detail on the decoder itself, including its command-line options, see
+<a href="decoder.html">the Joshua decoder page</a>.  You can also learn more about other steps of
+<a href="pipeline.html">the Joshua MT pipeline</a>, including <a href="thrax.html">grammar extraction</a> with Thrax and
+Joshua’s <a href="packing.html">efficient grammar representation</a>.</p>
+
+<p>If you have problems or issues, you might find some help <a href="faq.html">on our answers page</a> or
+<a href="https://groups.google.com/forum/?fromgroups#!forum/joshua_support">in the mailing list archives</a>.</p>
+
+<p>A <a href="bundle.html">bundled configuration</a>, which is a minimal set of configuration, resource, and script files, can be created and easily transferred and shared.</p>
+
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/js/bootstrap-button.js"></script>
+    <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/js/bootstrap-typeahead.js"></script>
+
+    <!-- Start of StatCounter Code for Default Guide -->
+    <script type="text/javascript">
+      var sc_project=8264132; 
+      var sc_invisible=1; 
+      var sc_security="4b97fe2d"; 
+    </script>
+    <script type="text/javascript" src="http://www.statcounter.com/counter/counter.js"></script>
+    <noscript>
+      <div class="statcounter">
+        <a title="hit counter joomla" 
+           href="http://statcounter.com/joomla/"
+           target="_blank">
+          <img class="statcounter"
+               src="http://c.statcounter.com/8264132/0/4b97fe2d/1/"
+               alt="hit counter joomla" />
+        </a>
+      </div>
+    </noscript>
+    <!-- End of StatCounter Code for Default Guide -->
+
+  </body>
+</html>
